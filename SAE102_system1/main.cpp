@@ -5,10 +5,12 @@
 
 using namespace std;
 
+
 void generateRandVotes(vector<string> & candidates, unsigned & voters_cnt) {
     mt19937 mt1(chrono::high_resolution_clock::now().time_since_epoch().count());  // seed RNG with nanosecond clock
     ofstream votes_file ("votes.txt");  // open votes.txt
     for (unsigned i = 0; i < voters_cnt; ++i) {  // for every voter,
+        //cout << "candidates.size() = " << candidates.size() << endl;
         votes_file << (candidates[(mt1() % candidates.size())]) << endl;  // add a random vote to votes.txt
     }
     votes_file.close();  // close votes.txt
@@ -85,9 +87,25 @@ vector<string> getTies(vector<string> & candidates, vector<unsigned> & voteCount
     return ties;
 }
 
+void printVotes(const vector<string> & candidates, const vector<unsigned> & votes) {
+    for (size_t i = 0; i < candidates.size(); ++i)
+        cout << candidates[i] << " : " << votes[i] << endl;
+}
+
 int main() {
     vector<string> candidates = {"Maxime Noiret", "Hugo Brest-Lestrade", "Hugo Heng", "Wissem Dahmouche", "Martin Demange"};
     unsigned voterCount = 100000;
     generateRandVotes(candidates, voterCount);
     vector<unsigned> votes = countVotes(candidates);
+    unsigned maxVote = getMaxValue(votes);
+    printVotes(candidates, votes);
+    while (getTies(candidates, votes, maxVote).size() > 1) {
+        cout << endl << "Tied!" << endl;
+        candidates = getTies(candidates, votes, maxVote);
+        generateRandVotes(candidates, voterCount);
+        votes = countVotes(candidates);
+        maxVote = getMaxValue(votes);
+        printVotes(candidates, votes);
+    }
+    cout << "winner is " << candidates[getMaxIndice(votes)] << "!!!" << endl;
 }
