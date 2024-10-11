@@ -86,5 +86,8 @@ vector<string> getTies(vector<string> & candidates, vector<unsigned> & voteCount
 }
 
 int main() {
-    return 0;
+    vector<string> candidates = {"Maxime Noiret", "Hugo Brest-Lestrade", "Hugo Heng", "Wissem Dahmouche", "Martin Demange"};
+    unsigned voterCount = 100000;
+    generateRandVotes(candidates, voterCount);
+    vector<unsigned> votes = countVotes(candidates);
 }
