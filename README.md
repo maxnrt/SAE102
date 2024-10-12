@@ -24,4 +24,6 @@ Demandez moi sur Discord pour savoir comment y ajouter votre dossier de projet Q
 
 ---
 
+[Google Docs Folder](https://drive.google.com/drive/folders/1E0WmVWcWK9bW1g1rUisO5JHUmGA-ncUM)
+
 [Documentation for functions present in system1](https://github.com/maxnrt/SAE102/wiki/Functions-in-System1)
