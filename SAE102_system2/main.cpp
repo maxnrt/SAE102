@@ -117,26 +117,13 @@ vector<size_t> getTwoBest(const vector<unsigned> & votes) {
     return ret;
 }
 
-// band-aid for the previous function lol
-bool hasNone(vector<string> & vect) {
-    for (string & elem : vect)
-        if (elem == "None")
-            return true;
-    return false;
-}
-
-int main()
-{
+int main() {
     vector<string> candidates = {"Maxime Noiret",
                                  "Hugo Brest-Lestrade",
                                  "Hugo Heng",
                                  "Wissem Dahmouche",
                                  "Martin Demange"};
     //vector<unsigned> votes = {49, 10, 29, 8, 4};
-    if (hasNone(candidates)) {
-        cout << "candidates vector has element 'None'. Exiting..." << endl;
-        return 1;
-    }
     unsigned voterCount = 250000;
     generateRandVotes(candidates, voterCount);
     vector<unsigned> votes = countVotes(candidates);
@@ -146,7 +133,7 @@ int main()
         cout << candidates[majorityInd] << " wins by majority!" << endl;
     else {
         candidates = {candidates[getTwoBest(votes)[0]],
-                      candidates[getTwoBest(votes)[1]]};
+                      candidates[getTwoBest(votes)[1]]};  // I know I'm calling the function twice, but I didn't want to use a whole var
         cout << "Nobody has majority. Second round between "
              << candidates[0] << " and "
              << candidates[1] << " will now begin." << endl;
