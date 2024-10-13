@@ -12,7 +12,7 @@ Demandez moi sur Discord pour savoir comment y ajouter votre dossier de projet Q
 - [X] System 1 (scrutin uninominal majoritaire à un tour)
     - [ ] Test Oracle 1
     - [ ] Test Oracle 2
-- [X] System 2 (démocratique)
+- [X] System 2 (démocratique à deux tours)
     - [ ] Test Oracle 1
     - [ ] Test Oracle 2
 - [ ] System 3 (jsp mettez le)
