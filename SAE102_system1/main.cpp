@@ -6,7 +6,7 @@
 using namespace std;
 
 // generateRandvotes generates a text file (votes.txt) with every singles votes in the form of the names of the candidates.
-void generateRandVotes(vector<string> & candidates, unsigned & voters_cnt) {
+void generateRandVotes(const vector<string> & candidates, const unsigned & voters_cnt) {
     mt19937 mt1(chrono::high_resolution_clock::now().time_since_epoch().count());  // seed RNG with nanosecond clock
     ofstream votes_file ("votes.txt");  // open votes.txt as an output file stream (writing to it)
     for (unsigned i = 0; i < voters_cnt; ++i) {  // for every voter,
@@ -17,7 +17,7 @@ void generateRandVotes(vector<string> & candidates, unsigned & voters_cnt) {
 }
 
 // countVotes returns a list of how many votes each candidate got
-vector<unsigned> countVotes (vector<string> & candidates) {
+vector<unsigned> countVotes (const vector<string> & candidates) {
     ifstream votes_file ("votes.txt");  // open votes.txt as an input file stream (reading from it)
     vector<unsigned> voteCounts;  // declare a vector that will hold the amout of votes for each candidates
     for (size_t i = 0; i < candidates.size(); ++i)  // init vector with 0s
@@ -36,7 +36,7 @@ vector<unsigned> countVotes (vector<string> & candidates) {
 
 // getMaxIndice returns the indice of the highest value in a vector
 template <typename T>
-size_t getMaxIndice (vector<T> Vect) {
+size_t getMaxIndice (const vector<T> Vect) {
     size_t maxInd;
     T maxVal = 0;
     for (size_t i = 0; i < Vect.size(); ++i) {  // for every element in the vector
@@ -50,9 +50,9 @@ size_t getMaxIndice (vector<T> Vect) {
 
 // getMaxValue returns the highest value in a vector
 template <typename T>
-unsigned getMaxValue(vector<T> Vect) {
+unsigned getMaxValue(const vector<T> Vect) {
     T maxVal = 0;
-    for (T & elem : Vect) {  // for every element in the vector
+    for (const T & elem : Vect) {  // for every element in the vector
         if (maxVal < elem) {  // if maxVal is below the element
             maxVal = elem;  // update maxVal
         }
@@ -64,7 +64,7 @@ unsigned getMaxValue(vector<T> Vect) {
 //     and if that value is also the highest value in the list
 // Note: this function is not used! Why keep it? Because I'm the boss here, I made this code lmao.
 //       Make a pull request on Github to remove it and I'll think about it :)
-bool isTied(vector<unsigned> & voteCounts, unsigned & max) {
+bool isTied(const vector<unsigned> & voteCounts, const unsigned & max) {
     for (size_t i = 0; i < voteCounts.size(); ++i)  // for every candidates' vote count,
         for (size_t y = i+1; y < voteCounts.size(); ++y)  // for every following candidates' vote count,
             if ((voteCounts[i] == voteCounts[i]) && voteCounts[i] == max)  // if they are both the same and are also equal to max,
@@ -82,7 +82,7 @@ bool isIn(const Y & element, const vector<Y> & vect) {
 }
 
 // getTies returns a vector of strings containing every candidates that both tied and had the highest value of votes.
-vector<string> getTies(vector<string> & candidates, vector<unsigned> & voteCounts, unsigned & max) {
+vector<string> getTies(const vector<string> & candidates, const vector<unsigned> & voteCounts, const unsigned & max) {
     vector<string> ties;
 
     for (size_t i = 0; i < voteCounts.size()-1; ++i) {  // for every candidates' vote count,
