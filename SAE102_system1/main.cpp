@@ -9,10 +9,8 @@ using namespace std;
 void generateRandVotes(const vector<string> & candidates, const unsigned & voters_cnt) {
     mt19937 mt1(chrono::high_resolution_clock::now().time_since_epoch().count());  // seed RNG with nanosecond clock
     ofstream votes_file ("votes.txt");  // open votes.txt as an output file stream (writing to it)
-    for (unsigned i = 0; i < voters_cnt; ++i) {  // for every voter,
-        //cout << "candidates.size() = " << candidates.size() << endl;
+    for (unsigned i = 0; i < voters_cnt; ++i)  // for every voter,
         votes_file << (candidates[(mt1() % candidates.size())]) << endl;  // add a random vote to votes.txt
-    }
     votes_file.close();  // close votes.txt
 }
 
@@ -24,13 +22,10 @@ vector<unsigned> countVotes (const vector<string> & candidates) {
         voteCounts.push_back(0);
 
     string line;
-    while (getline(votes_file, line)) {  // for every line in votes.txt
-        for (size_t i = 0; i < candidates.size(); ++i) {  // for every candidate in candidates
-            if (line == candidates[i]) {  // if the line equald the candidate
+    while (getline(votes_file, line))  // for every line in votes.txt
+        for (size_t i = 0; i < candidates.size(); ++i)  // for every candidate in candidates
+            if (line == candidates[i])  // if the line equald the candidate
                 ++voteCounts[i];  // add one to that candidate's votes
-            }
-        }
-    }
     return voteCounts;
 }
 
@@ -39,12 +34,11 @@ template <typename T>
 size_t getMaxIndice (const vector<T> Vect) {
     size_t maxInd;
     T maxVal = 0;
-    for (size_t i = 0; i < Vect.size(); ++i) {  // for every element in the vector
+    for (size_t i = 0; i < Vect.size(); ++i)  // for every element in the vector
         if (maxVal < Vect[i]) {  // if maxVal is below the element
             maxVal = Vect[i];  // update maxVal
             maxInd = i;  // update the indice of maxVal
         }
-    }
     return maxInd;  // return the indice of maxVal
 }
 
@@ -52,11 +46,9 @@ size_t getMaxIndice (const vector<T> Vect) {
 template <typename T>
 unsigned getMaxValue(const vector<T> Vect) {
     T maxVal = 0;
-    for (const T & elem : Vect) {  // for every element in the vector
-        if (maxVal < elem) {  // if maxVal is below the element
+    for (const T & elem : Vect) // for every element in the vector
+        if (maxVal < elem)  // if maxVal is below the element
             maxVal = elem;  // update maxVal
-        }
-    }
     return maxVal;  // return maxVal itself
 }
 
@@ -85,14 +77,12 @@ bool isIn(const Y & element, const vector<Y> & vect) {
 vector<string> getTies(const vector<string> & candidates, const vector<unsigned> & voteCounts, const unsigned & max) {
     vector<string> ties;
 
-    for (size_t i = 0; i < voteCounts.size()-1; ++i) {  // for every candidates' vote count,
-        for (size_t y = i+1; y < voteCounts.size(); ++y) {  // for every following candidates' vote count,
+    for (size_t i = 0; i < voteCounts.size()-1; ++i)  // for every candidates' vote count,
+        for (size_t y = i+1; y < voteCounts.size(); ++y)  // for every following candidates' vote count,
             if ((voteCounts[i] == voteCounts[y]) && (voteCounts[i] == max)) {  // if they are both the same and are also equal to max,
                 if (isIn(candidates[i], ties) == 0) ties.push_back(candidates[i]);  // add them in the list of tied candidates
                 if (isIn(candidates[y], ties) == 0) ties.push_back(candidates[y]);  //     if they aren't already present.
             }
-        }
-    }
     return ties;
 }
 
