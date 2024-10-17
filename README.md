@@ -13,7 +13,7 @@ Demandez moi sur Discord pour savoir comment y ajouter votre dossier de projet Q
     - [ ] Test Oracle 1
     - [ ] Test Oracle 2
 - [X] System 2 (démocratique à deux tours)
-    - [ ] Test Oracle 1
+    - [X] Test Oracle 1
     - [ ] Test Oracle 2
 - [ ] System 3 (jsp mettez le)
     - [ ] Test Oracle 1
