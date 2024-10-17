@@ -15,17 +15,16 @@ void generateRandVotes(const vector<string> & candidates, const unsigned & voter
 }
 
 // countVotes returns a list of how many votes each candidate got
-vector<unsigned> countVotes (const vector<string> & candidates) {
-    ifstream votes_file ("votes.txt");  // open votes.txt as an input file stream (reading from it)
+vector<unsigned> countVotes (const vector<string> & candidates, const vector<string> & votes) {
     vector<unsigned> voteCounts;  // declare a vector that will hold the amout of votes for each candidates
     for (size_t i = 0; i < candidates.size(); ++i)  // init vector with 0s
         voteCounts.push_back(0);
 
     string line;
-    while (getline(votes_file, line))  // for every line in votes.txt
-        for (size_t i = 0; i < candidates.size(); ++i)  // for every candidate in candidates
-            if (line == candidates[i])  // if the line equald the candidate
-                ++voteCounts[i];  // add one to that candidate's votes
+    for (const string & vote : votes)  // for every vote,
+        for (size_t i = 0; i < candidates.size(); ++i)  // for every candidate in candidates,
+            if (vote == candidates[i])  // if the vote equals the candidate,
+                ++voteCounts[i];  // add one to that candidate's votes.
     return voteCounts;
 }
 
@@ -76,7 +75,6 @@ bool isIn(const Y & element, const vector<Y> & vect) {
 // getTies returns a vector of strings containing every candidates that both tied and had the highest value of votes.
 vector<string> getTies(const vector<string> & candidates, const vector<unsigned> & voteCounts, const unsigned & max) {
     vector<string> ties;
-
     for (size_t i = 0; i < voteCounts.size()-1; ++i)  // for every candidates' vote count,
         for (size_t y = i+1; y < voteCounts.size(); ++y)  // for every following candidates' vote count,
             if ((voteCounts[i] == voteCounts[y]) && (voteCounts[i] == max)) {  // if they are both the same and are also equal to max,
@@ -92,20 +90,44 @@ void printVotes(const vector<string> & candidates, const vector<unsigned> & vote
         cout << candidates[i] << " : " << votes[i] << endl;  // show their name and votes count.
 }
 
-int main() {
-    vector<string> candidates = {"Maxime Noiret", "Hugo Brest-Lestrade", "Hugo Heng", "Wissem Dahmouche", "Martin Demange"};
-    unsigned voterCount = 100000;
-    generateRandVotes(candidates, voterCount);
-    vector<unsigned> votes = countVotes(candidates);
-    unsigned maxVote = getMaxValue(votes);
-    printVotes(candidates, votes);
-    while (getTies(candidates, votes, maxVote).size() > 1) {
-        cout << endl << "Tied!" << endl;
-        candidates = getTies(candidates, votes, maxVote);
-        generateRandVotes(candidates, voterCount);
-        votes = countVotes(candidates);
-        maxVote = getMaxValue(votes);
-        printVotes(candidates, votes);
+void inputVotes(const vector<string> & candidates, vector<string> & votes, string & input) {
+    input = "";
+    for (;;) {
+        cout << "Vote for one of the following candidates: " << endl;
+        for (const string & candidate : candidates)
+            cout << "\t" << candidate << endl;
+        getline(cin, input);
+        if (input.size() == 0) break;
+        if (!isIn(input, candidates)) continue;
+        votes.push_back(input);
     }
-    cout << "winner is " << candidates[getMaxIndice(votes)] << "!!!" << endl;
+}
+
+int main() {
+    vector<string> candidates;
+
+    string input;
+    for (;;) {
+        cout << "Type the name for candidate n°" << candidates.size() << ": ";
+        getline(cin, input);
+        if (input.size() == 0) break;
+        candidates.push_back(input);
+    }
+
+    vector<string> votes;
+    inputVotes(candidates, votes, input);
+
+    vector<unsigned> candVotes = countVotes(candidates, votes);
+    unsigned maxVote = getMaxValue(candVotes);
+    printVotes(candidates, candVotes);
+    while (getTies(candidates, candVotes, maxVote).size() > 1) {
+        cout << endl << "Tied!" << endl;
+        candidates = getTies(candidates, candVotes, maxVote);
+        votes = {};
+        inputVotes(candidates, votes, input);
+        candVotes = countVotes(candidates, votes);
+        maxVote = getMaxValue(candVotes);
+        printVotes(candidates, candVotes);
+    }
+    cout << "Winner is " << candidates[getMaxIndice(candVotes)] << "!!!" << endl;
 }
