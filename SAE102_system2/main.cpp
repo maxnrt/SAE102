@@ -108,14 +108,31 @@ vector<size_t> getTwoBest(const vector<unsigned> & votes) {
 }
 
 int main() {
-    vector<string> candidates = {"Maxime Noiret",
-                                 "Hugo Brest-Lestrade",
-                                 "Hugo Heng",
-                                 "Wissem Dahmouche",
-                                 "Martin Demange"};
-    //vector<unsigned> votes = {49, 10, 29, 8, 4};
-    unsigned voterCount = 250000;
-    generateRandVotes(candidates, voterCount);
+    vector<string> candidates;
+    unsigned nbr = 0;
+
+    string input;
+    for (;;) {
+        cout << "Type the name for candidate n°" << nbr << ": ";
+        getline(cin, input);
+        if (input.size() == 0) break;
+        candidates.push_back(input);
+        ++nbr;
+    }
+
+    vector<string> votes;
+    for (;;) {
+        cout << "Vote for one of the following candidates: " << endl;
+        for (const string & candidate : candidates)
+            cout << "\t" << candidate << endl;
+        getline(cin, input);
+        if (input.size() == 0) break;
+        if (!isIn(input, candidates)) continue;
+        votes.push_back(input);
+    }
+    unsigned voterCount = votes.size();
+
+
     vector<unsigned> votes = countVotes(candidates);
     printVotes(candidates, votes, voterCount);
     size_t majorityInd = getMajority(votes, voterCount);
