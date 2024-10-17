@@ -16,17 +16,16 @@ void generateRandVotes(const vector<string> & candidates, const unsigned & voter
 }
 
 // countVotes returns a list of how many votes each candidate got
-vector<unsigned> countVotes (const vector<string> & candidates) {
-    ifstream votes_file ("votes.txt");  // open votes.txt as an input file stream (reading from it)
+vector<unsigned> countVotes (const vector<string> & candidates, const vector<string> & votes) {
     vector<unsigned> voteCounts;  // declare a vector that will hold the amout of votes for each candidates
     for (size_t i = 0; i < candidates.size(); ++i)  // init vector with 0s
         voteCounts.push_back(0);
 
     string line;
-    while (getline(votes_file, line))  // for every line in votes.txt
-        for (size_t i = 0; i < candidates.size(); ++i)  // for every candidate in candidates
-            if (line == candidates[i])  // if the line equald the candidate
-                ++voteCounts[i];  // add one to that candidate's votes
+    for (const string & vote : votes)  // for every vote,
+        for (size_t i = 0; i < candidates.size(); ++i)  // for every candidate in candidates,
+            if (vote == candidates[i])  // if the vote equals the candidate,
+                ++voteCounts[i];  // add one to that candidate's votes.
     return voteCounts;
 }
 
@@ -107,6 +106,19 @@ vector<size_t> getTwoBest(const vector<unsigned> & votes) {
     return ret;
 }
 
+void inputVotes(const vector<string> & candidates, vector<string> & votes) {
+    string input;
+    for (;;) {
+        cout << "Vote for one of the following candidates: " << endl;
+        for (const string & candidate : candidates)
+            cout << "\t" << candidate << endl;
+        getline(cin, input);
+        if (input.size() == 0) break;
+        if (!isIn(input, candidates)) continue;
+        votes.push_back(input);
+    }
+}
+
 int main() {
     vector<string> candidates;
     unsigned nbr = 0;
@@ -121,32 +133,27 @@ int main() {
     }
 
     vector<string> votes;
-    for (;;) {
-        cout << "Vote for one of the following candidates: " << endl;
-        for (const string & candidate : candidates)
-            cout << "\t" << candidate << endl;
-        getline(cin, input);
-        if (input.size() == 0) break;
-        if (!isIn(input, candidates)) continue;
-        votes.push_back(input);
-    }
+    inputVotes(candidates, votes);
     unsigned voterCount = votes.size();
 
-
-    printVotes(candidates, votes, voterCount);
-    size_t majorityInd = getMajority(votes, voterCount);
-    if (majorityInd != votes.size())
+    vector<unsigned> candVotes = countVotes(candidates, votes);
+    printVotes(candidates, candVotes, voterCount);
+    size_t majorityInd = getMajority(candVotes, voterCount);
+    if (majorityInd != candVotes.size())
         cout << candidates[majorityInd] << " wins by majority!" << endl;
     else {
-        candidates = {candidates[getTwoBest(votes)[0]],
-                      candidates[getTwoBest(votes)[1]]};  // I know I'm calling the function twice, but I didn't want to use a whole var
+        candidates = {candidates[getTwoBest(candVotes)[0]],
+                      candidates[getTwoBest(candVotes)[1]]};  // I know I'm calling the function twice, but I didn't want to use a whole var
         cout << "Nobody has majority. Second round between "
              << candidates[0] << " and "
              << candidates[1] << " will now begin." << endl;
-        generateRandVotes(candidates, voterCount);
-        votes = countVotes(candidates);
-        printVotes(candidates, votes, voterCount);
-        cout << candidates[getMajority(votes, voterCount)] << " wins in the second round!" << endl;
+        votes = {};
+        inputVotes(candidates, votes);
+        voterCount = votes.size();
+
+        candVotes = countVotes(candidates, votes);
+        printVotes(candidates, candVotes, voterCount);
+        cout << candidates[getMajority(candVotes, voterCount)] << " wins in the second round!" << endl;
     }
     return 0;
 }
