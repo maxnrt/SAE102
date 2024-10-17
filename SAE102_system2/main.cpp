@@ -133,7 +133,6 @@ int main() {
     unsigned voterCount = votes.size();
 
 
-    vector<unsigned> votes = countVotes(candidates);
     printVotes(candidates, votes, voterCount);
     size_t majorityInd = getMajority(votes, voterCount);
     if (majorityInd != votes.size())
