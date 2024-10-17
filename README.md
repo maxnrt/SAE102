@@ -11,7 +11,7 @@ Demandez moi sur Discord pour savoir comment y ajouter votre dossier de projet Q
 ## ToDo
 - [X] System 1 (scrutin uninominal majoritaire à un tour)
     - [X] Test Oracle 1
-    - [ ] Test Oracle 2
+    - [X] Test Oracle 2
 - [X] System 2 (démocratique à deux tours)
     - [X] Test Oracle 1
     - [ ] Test Oracle 2
