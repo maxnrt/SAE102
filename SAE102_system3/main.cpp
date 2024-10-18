@@ -115,6 +115,46 @@ vector<string> metAJourLesCandidats (unsigned & tmp, vector<string> & candidats)
     return candidats2;
 }
 
+vector<string> inputCandidates() {
+    vector<string> ret;
+    string input;
+    for (;;) {
+        cout << "Entrez le candidat n°" << ret.size()+1 << ": ";
+        getline(cin, input);
+        if (input.size() == 0) break;
+        ret.push_back(input);
+    }
+    return ret;
+}
+
+// isIn is a predicate that returns true if 'element' is present in 'vect'.
+template <typename Y>
+bool isIn(const Y & element, const vector<Y> & vect) {
+    for (const Y & elem : vect)  // for every elements in vect,
+        if (elem == element)  // if the element is equal to 'element',
+            return true;
+    return false;  // if we went through the whole list, it means the element wasn't present.
+}
+
+// Oi Hugo, voila une fonction cool, mais jte laisse trouver comment l'utiliser pour que ça fonctionne bien
+vector<string> inputVotes(const vector<string> & candidates) {
+    vector<string> votes;
+    string input;
+    for (;;) {
+        cout << "Vote for one of the following candidates: " << endl;
+        for (const string & candidate : candidates)
+            cout << "\t" << candidate << endl;
+        getline(cin, input);
+        if (input.size() == 0) break;
+        if (!isIn(input, candidates)) {
+            cout << "\"" << input << "\" n'est pas dans la liste des candidats!" << endl;
+            continue;
+        }
+        votes.push_back(input);
+    }
+    return votes;
+}
+
 
 
 
@@ -129,6 +169,8 @@ int main()
                                 "Yvan Dulé",
                                 "Huberts Eats",
                                 "Marc Assain"};
+    // oi Hugo, utilise ça pour entrer les candidats avec la console pour que ça marche avec fichier Oracle
+    // vector<string> candidats = inputCandidates();
     vector<unsigned> vote_eus = {0,0,0,0,0,0,0,0} ;
 //  afficherVecteur(candidats);
     unsigned nombreVoteurs = 100 ;
