@@ -6,7 +6,11 @@ Il y a trois dossiers. (un par système de vote)
 
 Chaque dossier est un projet QTCreator.
 
-Demandez moi sur Discord pour savoir comment y ajouter votre dossier de projet QTCreator
+Pour clone, utilisez le format suivant:
+```bash
+git clone https://[PAT]@gitbub.com/maxnrt/SAE102
+```
+Le PAT est sur le groupe discord de la SAE
 
 ## ToDo
 - [X] System 1 (scrutin uninominal majoritaire à un tour)
