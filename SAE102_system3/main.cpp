@@ -45,9 +45,9 @@ void generateRandVotes(const vector<string> & candidats, const unsigned & voters
 }
 
 
-size_t QuiALaMajorite(unsigned & nombreVoteurs, vector<unsigned> & votes_eus)  // constante
+size_t QuiALaMajorite(const unsigned & nombreVoteurs, const vector<unsigned> & votes_eus)  // constante
 {
-    for (unsigned y = 0; y < size(votes_eus); ++y)  // size_t
+    for (size_t y = 0; y < size(votes_eus); ++y)  // size_t
     {
         if (votes_eus[y] >= nombreVoteurs/2 )
             return  y;
@@ -57,12 +57,12 @@ size_t QuiALaMajorite(unsigned & nombreVoteurs, vector<unsigned> & votes_eus)  /
     return false;
 }
 
-size_t quiALeMoinsDeVotes (vector<string> & candidats, vector<unsigned> & vote_eus)  // constante
+size_t quiALeMoinsDeVotes (const vector<string> & candidats, const vector<unsigned> & vote_eus)  // constante
 {
     vector<string> candidats2;
     unsigned tmp = vote_eus[0];
     unsigned indice_tmp = 0;  // size_t
-    for (unsigned u = 0; u < size(candidats); ++u)  // size_t
+    for (size_t u = 0; u < size(candidats); ++u)  // size_t
     {
         if (vote_eus[u] < tmp)
         {
@@ -70,7 +70,7 @@ size_t quiALeMoinsDeVotes (vector<string> & candidats, vector<unsigned> & vote_e
             indice_tmp = u;
         }
     }
-    for (unsigned z = 0; z < size(candidats); ++z)  // size_t
+    for (size_t z = 0; z < size(candidats); ++z)  // size_t
     {
         if (z == indice_tmp)continue;
         else
@@ -86,16 +86,16 @@ size_t quiALeMoinsDeVotes (vector<string> & candidats, vector<unsigned> & vote_e
 
 void afficherVecteur (const vector<string> & candidats)
 {
-    for (unsigned i = 0; i < size(candidats); ++i )  // constante
+    for (size_t i = 0; i < size(candidats); ++i )  // constante
     {
         cout << candidats[i] << endl ;
     }
 }
 
-vector<unsigned> metAJourLesVotes (vector<string> & candidats)  // constante
+vector<unsigned> metAJourLesVotes (const vector<string> & candidats)  // constante
 {
     vector<unsigned> vote2;
-    for (unsigned b = 0 ; b < size(candidats)-1 ; ++b)  // size_t
+    for (size_t b = 0 ; b < size(candidats)-1 ; ++b)  // size_t
     {
             vote2.push_back(0);
     }
@@ -105,7 +105,7 @@ vector<unsigned> metAJourLesVotes (vector<string> & candidats)  // constante
 vector<string> metAJourLesCandidats (unsigned & tmp, vector<string> & candidats)
 {
     vector<string> candidats2;
-    for (unsigned c = 0 ; c < size(candidats) ; ++c)  // size_t
+    for (size_t c = 0 ; c < size(candidats) ; ++c)  // size_t
     {
         if (c == tmp)
         {
@@ -179,8 +179,8 @@ int main()
     unsigned nombreVoteurs = 100 ;
     generateRandVotes(candidats, nombreVoteurs, vote_eus) ;  // doit être enlevé et être remplacé par input console
     string nomGagnant ;  // à quoi sert cette string? dans le message tu peux juste mettre genre candidats[gagnant] comme tu fais avec les votes
-    unsigned tmp;  // size_t
-    unsigned gagnant = 0;  // size_t
+    size_t tmp;  // size_t
+    size_t gagnant = 0;  // size_t
     unsigned compteurTour = 0;
     cout << compteurTour + 1 << "tour ! " << endl << endl ;  // euh... commence le à 1 au pire? Et puis il est pas dans la boucle...?
     while (true)
