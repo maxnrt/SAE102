@@ -5,8 +5,10 @@
 
 using namespace std;
 
+// NOTE: check if vote counts should stay unsigned or be something else. (unsigned should be enough but who knows)
 
-// generateRandvotes generates a text file (votes.txt) with every singles votes in the form of the names of the candidates.
+// NOTE: this function is not used and is only kept to preserve the history of this project.
+// generateRandvotes generates a text file (votes.txt) with every single votes in the form of the names of the candidates.
 void generateRandVotes(const vector<string> & candidates, const unsigned & voters_cnt) {
     mt19937 mt1(chrono::high_resolution_clock::now().time_since_epoch().count());  // seed RNG with nanosecond clock
     ofstream votes_file ("votes.txt");  // open votes.txt as an output file stream (writing to it)
@@ -22,10 +24,13 @@ vector<unsigned> countVotes (const vector<string> & candidates, const vector<str
         voteCounts.push_back(0);
 
     string line;
+    // This is very unoptimized, but it works. It's not like they're gonna make us test 200000 votes, right...?
     for (const string & vote : votes)  // for every vote,
         for (size_t i = 0; i < candidates.size(); ++i)  // for every candidate in candidates,
-            if (vote == candidates[i])  // if the vote equals the candidate,
+            if (vote == candidates[i]) {  // if the vote equals the candidate,
                 ++voteCounts[i];  // add one to that candidate's votes.
+                break;  // go to the next vote.
+            }
     return voteCounts;
 }
 
@@ -40,28 +45,6 @@ size_t getMaxIndice (const vector<T> Vect) {
             maxInd = i;  // update the indice of maxVal
         }
     return maxInd;  // return the indice of maxVal
-}
-
-// getMaxValue returns the highest value in a vector
-template <typename T>
-unsigned getMaxValue(const vector<T> Vect) {
-    T maxVal = 0;
-    for (T & elem : Vect)  // for every element in the vector
-        if (maxVal < elem)  // if maxVal is below the element
-            maxVal = elem;  // update maxVal
-    return maxVal;  // return maxVal itself
-}
-
-// isTied is a predicate that returns true if two candidates have both the same value of votes
-//     and if that value is also the highest value in the list
-// Note: this function is not used! Why keep it? Because I'm the boss here, I made this code lmao.
-//       Make a pull request on Github to remove it and I'll think about it :)
-bool isTied(const vector<unsigned> & voteCounts, const unsigned & max) {
-    for (size_t i = 0; i < voteCounts.size(); ++i)  // for every candidates' vote count,
-        for (size_t y = i+1; y < voteCounts.size(); ++y)  // for every following candidates' vote count,
-            if ((voteCounts[i] == voteCounts[i]) && voteCounts[i] == max)  // if they are both the same and are also equal to max,
-                return true;
-    return false;  // return false after going through the whole list
 }
 
 // isIn is a predicate that returns true if 'element' is present in 'vect'.
@@ -79,6 +62,7 @@ double getPercentage(const T & total, const T & elem) {
 }
 
 // printVotes just exists to make the main() code prettier lol
+//     this version, unlike the version in system1, also shows vote percentage.
 void printVotes(const vector<string> & candidates,
                 const vector<unsigned> & votes,
                 const unsigned & voterCount) {
@@ -106,15 +90,30 @@ vector<size_t> getTwoBest(const vector<unsigned> & votes) {
     return ret;
 }
 
-void inputVotes(const vector<string> & candidates, vector<string> & votes) {
+// inputCandidates lets the user input the candidates through the console. Made for Oracle Test
+void inputCandidates(vector<string> & candidates) {
     string input;
+    for (;;) {
+        cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see if first candidate should be n°0 or 1
+        getline(cin, input);
+        if (input.size() == 0) break;
+        candidates.push_back(input);
+    }
+}
+
+// inputVotes lets the user vote for the candidates through the console. Made for Oracle Test
+void inputVotes(const vector<string> & candidates, vector<string> & votes) {
+    string input = "";
     for (;;) {
         cout << "Vote for one of the following candidates: " << endl;
         for (const string & candidate : candidates)
             cout << "\t" << candidate << endl;
         getline(cin, input);
         if (input.size() == 0) break;
-        if (!isIn(input, candidates)) continue;
+        if (!isIn(input, candidates)) {
+            cout << endl << input << " isn't a candidate!" << endl << endl;
+            continue;
+        }
         votes.push_back(input);
     }
 }
