@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include <random>
-#include <chrono>
+#include <random>  // unused
+#include <chrono>  // unused
 
 using namespace std;
 
@@ -75,7 +75,7 @@ void printVotes(const vector<string> & candidates,
 //     if none, returns size of candidates/votes vector.
 size_t getMajority(const vector<unsigned> & votes, const unsigned & voterCount) {
     for (size_t i = 0; i < votes.size(); ++i)
-        if (getPercentage(voterCount, votes[i]) > 50)
+        if (votes[i] >= float(voterCount) * 0.5)
             return i;
     return votes.size();
 }
