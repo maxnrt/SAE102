@@ -7,6 +7,17 @@ using namespace std;
 
 // NOTE: check if vote counts should stay unsigned or be something else. (unsigned should be enough but who knows)
 
+struct voters {
+    string lName;
+    string fName;
+    unsigned vote;
+};
+struct candidate {
+    string name;
+    unsigned votes;
+};
+
+
 // NOTE: this function is not used and is only kept to preserve the history of this project.
 // generateRandvotes generates a text file (votes.txt) with every single votes in the form of the names of the candidates.
 void generateRandVotes(const vector<string> & candidates, const unsigned & voters_cnt) {
@@ -40,7 +51,7 @@ size_t getMaxIndice (const vector<T> Vect) {
     size_t maxInd = 0;
     T maxVal = 0;
     for (size_t i = 0; i < Vect.size(); ++i)  // for every element in the vector
-        if (maxVal < Vect[i]) {  // if maxVal is below the element
+        if (maxVal < Vect[i]) {  // if maxVal is belowinput[0] == '/' && input[1] == '/' the element
             maxVal = Vect[i];  // update maxVal
             maxInd = i;  // update the indice of maxVal
         }
@@ -90,12 +101,14 @@ vector<size_t> getTwoBest(const vector<unsigned> & votes) {
     return ret;
 }
 
+
+
 // inputCandidates lets the user input the candidates through the console. Made for Oracle Test
 void inputCandidates(vector<string> & candidates) {
     string input;
     for (;;) {
         cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see if first candidate should be n°0 or 1
-        getline(cin, input);
+        getline(cin, input);  // another getline if first name AND last name are both needed.
         if (input.size() == 0) break;
         candidates.push_back(input);
     }
@@ -103,55 +116,46 @@ void inputCandidates(vector<string> & candidates) {
 
 // inputVotes lets the user vote for the candidates through the console. Made for Oracle Test
 // ToDo: replace this without outputs
-void inputVotes(const vector<string> & candidates, vector<string> & votes) {
-    string input = "";
+void inputVotes(vector<candidate> & vCandidates, vector<voters> & vVoters) {
+    string temp;
     for (;;) {
-        cout << "Vote for one of the following candidates: " << endl;
-        for (const string & candidate : candidates)
-            cout << "\t" << candidate << endl;
-        getline(cin, input);
+        //cout << "Vote for one of the following candidates: " << endl;
+        //for (const string & candidate : candidates)
+        //    cout << "\t" << candidate << endl;
+        vVoters.push_back(voters {"", "", 0});
+        getline(cin, vVoters[vVoters.size()].lName);  // get last name
+        getline(cin, vVoters[vVoters.size()].fName);  // get first name
+        getline(cin, temp);  // get vote
+        vVoters[vVoters.size()].vote = stou
+
+        if (input[0] == '/' && input[1] == '/') continue;
         if (input.size() == 0) break;
-        if (!isIn(input, candidates)) {
-            cout << endl << input << " isn't a candidate!" << endl << endl;
-            continue;
-        }
-        votes.push_back(input);
+        ++vCandidates[stoul(input)].votes;
     }
 }
 
-// This thing is awesome thank you teach
-struct voters {
-    string lName;
-    string fName;
-    unsigned vote;
-};
-struct candidates {
-    string lname;
-    string fname;
-    unsigned votes;
-};
+
 
 int main() {
-    vector<string> candidates;
-    unsigned nbr = 0;
+    vector<candidate> vCandidates;
 
-    // ToDo: replace this without outputs and taking into account '//' from input file, also put it in a procedure
+    // ToDo: replace this without outputs and taking into account '//' from input file, also put it in a
+    unsigned char nbr;
     string input;
     for (;;) {
-        cout << "Type the name for candidate n°" << nbr << ": ";
+        //cout << "Type the name for candidate n°" << nbr << ": ";
         getline(cin, input);
+        if (input[0] == '/' && input[1] == '/') continue;
         if (input.size() == 0) break;
-        candidates.push_back(input);
-        ++nbr;
+        vCandidates.push_back(candidate {input, 0});;
     }
 
 
-    vector<voters> vVoteurs;
-    inputVotes(candidates, votes);
-    unsigned voterCount = votes.size();
+    vector<voters> vVoters;
+    inputVotes(vCandidates);
+    unsigned voterCount = vVoters.size();
 
-    vector<unsigned> candVotes = countVotes(candidates, votes);
-    printVotes(candidates, candVotes, voterCount);
+    printVotes(vCandidates, voterCount);
     size_t majorityInd = getMajority(candVotes, voterCount);
     if (majorityInd != candVotes.size())
         cout << candidates[majorityInd] << " wins by majority!" << endl;
