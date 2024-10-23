@@ -45,11 +45,11 @@ void generateRandVotes(const vector<string> & candidats, const unsigned & voters
 }
 
 
-size_t QuiALaMajorite(const unsigned & nombreVoteurs, const vector<unsigned> & votes_eus)  // constante
+size_t QuiALaMajorite(const size_t & nombreCandidats, const vector<unsigned> & votes_eus)  // constante
 {
     for (size_t y = 0; y < size(votes_eus); ++y)  // size_t
     {
-        if (votes_eus[y] >= nombreVoteurs/2 )
+        if (votes_eus[y] >= nombreCandidats/2 )
             return  y;
         else
             return size(votes_eus);
@@ -61,7 +61,7 @@ size_t quiALeMoinsDeVotes (const vector<string> & candidats, const vector<unsign
 {
     vector<string> candidats2;
     unsigned tmp = vote_eus[0];
-    unsigned indice_tmp = 0;  // size_t
+    size_t indice_tmp = 0;  // size_t
     for (size_t u = 0; u < size(candidats); ++u)  // size_t
     {
         if (vote_eus[u] < tmp)
@@ -102,14 +102,14 @@ vector<unsigned> metAJourLesVotes (const vector<string> & candidats)  // constan
     return vote2;
 }
 
-vector<string> metAJourLesCandidats (unsigned & tmp, vector<string> & candidats)
+vector<string> metAJourLesCandidats (size_t & tmp, vector<string> & candidats)
 {
     vector<string> candidats2;
     for (size_t c = 0 ; c < size(candidats) ; ++c)  // size_t
     {
         if (c == tmp)
         {
-            cout << "le candidat " << candidats[tmp] << "  se fait tej" << endl << endl;
+            cout << "le candidat " << candidats[tmp] << "  est éliminé" << endl << endl;
             continue;
         }
         else
@@ -160,7 +160,6 @@ vector<string> inputVotes(const vector<string> & candidates) {
 
 
 
-
 // Système de vote alternatif
 int main()
 {
@@ -174,6 +173,7 @@ int main()
                                 "Marc Assain"};  // doit être enlevé et être remplacé par input console
     // oi Hugo, utilise ça pour entrer les candidats avec la console pour que ça marche avec fichier Oracle
     // vector<string> candidats = inputCandidates();
+    size_t nombreCandidats = size(candidats) ;
     vector<unsigned> vote_eus = {0,0,0,0,0,0,0,0} ;  // doit être enlevé et être remplacé par input console
 //  afficherVecteur(candidats);
     unsigned nombreVoteurs = 100 ;
@@ -192,25 +192,42 @@ int main()
 
         candidats = metAJourLesCandidats(tmp, candidats);   //On met a jour les candidats
 
-        gagnant = QuiALaMajorite(nombreVoteurs, vote_eus);
+        gagnant = QuiALaMajorite(nombreCandidats, vote_eus);
 
         cout << gagnant << endl << endl ;
         cout << size(vote_eus) << endl << endl;
+        afficherVecteur(candidats);
+        cout << candidats[0] << endl;
+        cout << candidats[1] << endl;
         if (size(vote_eus) == 2)
         {
-            gagnant = QuiALaMajorite(nombreVoteurs, vote_eus);
-            nomGagnant = candidats[gagnant];                                 // ICI çA CRASH A 2, REPRENDRE D'ICI
-            cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
-        }
-        else if (gagnant == size(candidats))
-            generateRandVotes(candidats, nombreVoteurs, vote_eus);
+            
 
+        
+            
+            if (vote_eus[0] > vote_eus[1])
+            {
+                cout << "Le candidat" << candidats[0] << "A gagné" << endl;
+                break;
+            }
+            else 
+            {
+                cout << "le candidat" << candidats[1] << "a gagné" << endl;
+                break;
+            }
+            //JE MET CEUX LA EN COMMENTAIRE POUR TEST UN TRUC
+            //gagnant = QuiALaMajorite(nombreVoteurs, vote_eus);
+            //nomGagnant = candidats[gagnant];                                 // ICI çA CRASH A 2, REPRENDRE D'ICI
+            //cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
+        }
         else
         {
             nomGagnant = candidats[gagnant];
             cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
             break;
         }
+        generateRandVotes(candidats, nombreVoteurs, vote_eus);
+
 
 
     }
