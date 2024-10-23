@@ -102,6 +102,7 @@ void inputCandidates(vector<string> & candidates) {
 }
 
 // inputVotes lets the user vote for the candidates through the console. Made for Oracle Test
+// ToDo: replace this without outputs
 void inputVotes(const vector<string> & candidates, vector<string> & votes) {
     string input = "";
     for (;;) {
@@ -118,10 +119,23 @@ void inputVotes(const vector<string> & candidates, vector<string> & votes) {
     }
 }
 
+// This thing is awesome thank you teach
+struct voters {
+    string lName;
+    string fName;
+    unsigned vote;
+};
+struct candidates {
+    string lname;
+    string fname;
+    unsigned votes;
+};
+
 int main() {
     vector<string> candidates;
     unsigned nbr = 0;
 
+    // ToDo: replace this without outputs and taking into account '//' from input file, also put it in a procedure
     string input;
     for (;;) {
         cout << "Type the name for candidate n°" << nbr << ": ";
@@ -131,7 +145,8 @@ int main() {
         ++nbr;
     }
 
-    vector<string> votes;
+
+    vector<voters> vVoteurs;
     inputVotes(candidates, votes);
     unsigned voterCount = votes.size();
 
