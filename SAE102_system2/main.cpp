@@ -6,6 +6,7 @@
 using namespace std;
 
 // NOTE: check if vote counts should stay unsigned or be something else. (unsigned should be enough but who knows)
+//           replaced it with unsigned long because stou doesn't exist, whereas stoul does.
 
 struct voters {
     string lName;
@@ -14,7 +15,7 @@ struct voters {
 };
 struct candidate {
     string name;
-    unsigned votes;
+    unsigned long votes;
 };
 
 
@@ -58,6 +59,17 @@ size_t getMaxIndice (const vector<T> Vect) {
     return maxInd;  // return the indice of maxVal
 }
 
+size_t getMaxVotes (const vector<candidate> & vCandidates) {
+    size_t maxInd = 0;
+    unsigned long maxVal = 0;
+    for (size_t i = 0; i < vCandidates.size(); ++i)
+        if (maxVal < vCandidates[i].votes) {
+            maxVal = vCandidates[i].votes;
+            maxInd = i;
+        }
+    return maxInd;
+}
+
 // isIn is a predicate that returns true if 'element' is present in 'vect'.
 template <typename Y>
 bool isIn(const Y & element, const vector<Y> & vect) {
@@ -67,37 +79,31 @@ bool isIn(const Y & element, const vector<Y> & vect) {
     return false;  // if we went through the whole list, it means the element wasn't present.
 }
 
-template <typename T>
-double getPercentage(const T & total, const T & elem) {
-    return elem / double(total) * 100;
-}
 
 // printVotes just exists to make the main() code prettier lol
 //     this version, unlike the version in system1, also shows vote percentage.
-void printVotes(const vector<string> & candidates,
-                const vector<unsigned> & votes,
-                const unsigned & voterCount) {
-    for (size_t i = 0; i < candidates.size(); ++i)  // for every candidates,
-        cout << candidates[i] << " : " << votes[i]
-             << " " << getPercentage(voterCount, votes[i]) << "%" << endl;  // show their name, votes count and vote percentage.
+void printVotes(const vector<candidate> & vCandidates, const unsigned voterCount) {
+    for (candidate cand : vCandidates)  // for every candidates,
+        cout << cand.name << " : " << cand.votes
+             << " " << cand.votes / double(voterCount) * 100 << "%" << endl;  // show their name, votes count and vote percentage.
 }
 
 // getMajority returns the index of the candidate with the majority (>50%) of votes.
 //     if none, returns size of candidates/votes vector.
-size_t getMajority(const vector<unsigned> & votes, const unsigned & voterCount) {
-    for (size_t i = 0; i < votes.size(); ++i)
-        if (votes[i] >= float(voterCount) * 0.5)
+size_t getMajority(const vector<candidate> & vCandidates, const unsigned & voterCount) {
+    for (size_t i = 0; i < vCandidates.size(); ++i)
+        if (vCandidates[i].votes >= float(voterCount) * 0.5)
             return i;
-    return votes.size();
+    return vCandidates.size();
 }
 
 // This function sucks
-vector<size_t> getTwoBest(const vector<unsigned> & votes) {
-    vector<unsigned> tmp = votes;
+vector<size_t> getTwoBest(const vector<candidate> & vCand) {
+    vector<candidate> tmp = vCand;
     vector<size_t> ret;
-    ret.push_back(getMaxIndice(tmp));
-    tmp[getMaxIndice(tmp)] = 0;
-    ret.push_back(getMaxIndice(tmp));
+    ret.push_back(getMaxVotes(tmp));
+    tmp[getMaxVotes(tmp)].votes = 0;
+    ret.push_back(getMaxVotes(tmp));
     return ret;
 }
 
@@ -122,15 +128,17 @@ void inputVotes(vector<candidate> & vCandidates, vector<voters> & vVoters) {
         //cout << "Vote for one of the following candidates: " << endl;
         //for (const string & candidate : candidates)
         //    cout << "\t" << candidate << endl;
+
+        // Note: probably should place comment and end check at every getline, but if input file is incorrect it's not my fault :p
+        getline(cin, temp);
+        if (temp.substr(0, 2) == "//") continue;  // if comment, ignore
+        if (temp.size() == 0) break;
         vVoters.push_back(voters {"", "", 0});
-        getline(cin, vVoters[vVoters.size()].lName);  // get last name
+        vVoters[vVoters.size()].lName = temp;  // get last name
         getline(cin, vVoters[vVoters.size()].fName);  // get first name
         getline(cin, temp);  // get vote
-        vVoters[vVoters.size()].vote = stou
-
-        if (input[0] == '/' && input[1] == '/') continue;
-        if (input.size() == 0) break;
-        ++vCandidates[stoul(input)].votes;
+        vVoters[vVoters.size()].vote = stoul(temp);
+        ++vCandidates[stoul(temp)].votes;
     }
 }
 
@@ -140,7 +148,6 @@ int main() {
     vector<candidate> vCandidates;
 
     // ToDo: replace this without outputs and taking into account '//' from input file, also put it in a
-    unsigned char nbr;
     string input;
     for (;;) {
         //cout << "Type the name for candidate n°" << nbr << ": ";
@@ -152,26 +159,26 @@ int main() {
 
 
     vector<voters> vVoters;
-    inputVotes(vCandidates);
+    inputVotes(vCandidates, vVoters);
     unsigned voterCount = vVoters.size();
 
     printVotes(vCandidates, voterCount);
-    size_t majorityInd = getMajority(candVotes, voterCount);
-    if (majorityInd != candVotes.size())
-        cout << candidates[majorityInd] << " wins by majority!" << endl;
+    size_t majorityInd = getMajority(vCandidates, voterCount);
+    if (majorityInd != vCandidates.size())
+        cout << vCandidates[majorityInd].name << " wins by majority with "
+             << vCandidates[majorityInd].votes << " votes!" << endl;
     else {
-        candidates = {candidates[getTwoBest(candVotes)[0]],
-                      candidates[getTwoBest(candVotes)[1]]};  // I know I'm calling the function twice, but I didn't want to use a whole var
+        vCandidates = {vCandidates[getTwoBest(vCandidates)[0]],
+                       vCandidates[getTwoBest(vCandidates)[1]]};  // I know I'm calling the function twice, but I didn't want to use a whole var
         cout << "Nobody has majority. Second round between "
-             << candidates[0] << " and "
-             << candidates[1] << " will now begin." << endl;
-        votes = {};
-        inputVotes(candidates, votes);
-        voterCount = votes.size();
+             << vCandidates[0].name << " and "
+             << vCandidates[1].name << " will now begin." << endl;
+        //votes = {};
+        inputVotes(vCandidates, vVoters);
+        voterCount = vVoters.size();
 
-        candVotes = countVotes(candidates, votes);
-        printVotes(candidates, candVotes, voterCount);
-        cout << candidates[getMajority(candVotes, voterCount)] << " wins in the second round!" << endl;
+        printVotes(vCandidates, voterCount);
+        cout << vCandidates[getMajority(vCandidates, voterCount)].name << " wins in the second round!" << endl;
     }
     return 0;
 }
