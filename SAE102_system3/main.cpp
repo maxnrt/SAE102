@@ -79,8 +79,8 @@ size_t quiALeMoinsDeVotes (const vector<string> & candidats, const vector<unsign
 
 void quiACombienDeVotes (const vector<string> & candidats, const vector<unsigned> & vote_eus)
 {
-    cout << size(vote_eus) << endl;
-    for (size_t a = 0; a > size(vote_eus); ++a)
+    cout << " qui a cbien de votes test " << endl;
+    for (size_t a = 0; a < size(vote_eus); ++a)
     {
         cout << "Le candidat " << candidats[a] << " a obtenu " << vote_eus[a] << " votes !" << endl;
     }
@@ -90,7 +90,7 @@ void quiACombienDeVotes (const vector<string> & candidats, const vector<unsigned
 
 void afficherVecteur (const vector<string> & candidats)
 {
-    for (size_t i = 0; i > size(candidats); ++i )  // constante
+    for (size_t i = 0; i < size(candidats); ++i )  // constante
     {
         cout << candidats[i] << endl ;
     }
