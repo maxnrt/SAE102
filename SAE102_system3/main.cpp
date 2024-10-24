@@ -196,9 +196,9 @@ int main()
 
         cout << gagnant << endl << endl ;
         cout << size(vote_eus) << endl << endl;
-        afficherVecteur(candidats);
-        cout << candidats[0] << endl;
-        cout << candidats[1] << endl;
+        //afficherVecteur(candidats);
+        //cout << candidats[0] << endl;
+        //cout << candidats[1] << endl;
         if (size(vote_eus) == 2)
         {
             
@@ -226,8 +226,7 @@ int main()
             cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
             break;
         }
-        generateRandVotes(candidats, nombreVoteurs, vote_eus);
-
+        
 
 
     }
