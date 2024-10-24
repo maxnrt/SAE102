@@ -125,22 +125,23 @@ void inputCandidates(vector<string> & candidates) {
 void inputVotes(vector<candidate> & vCandidates, vector<voters> & vVoters) {
     string temp;
     for (;;) {
-        //cout << "Vote for one of the following candidates: " << endl;
-        //for (const string & candidate : candidates)
-        //    cout << "\t" << candidate << endl;
+        // cout << "Vote for one of the following candidates: " << endl;
+        // for (const candidate & ccandidate : vCandidates)
+        //     cout << "\t" << ccandidate.name << endl;
 
         // Note: probably should place comment and end check at every getline, but if input file is incorrect it's not my fault :p
         getline(cin, temp);
         if (temp.substr(0, 2) == "//") continue;  // if comment, ignore
         if (temp.size() == 0) break;
         vVoters.push_back(voters {"", "", 0});
-        vVoters[vVoters.size()].lName = temp;  // get last name
-        getline(cin, vVoters[vVoters.size()].fName);  // get first name
+        vVoters[vVoters.size()-1].lName = temp;  // get last name
+        getline(cin, vVoters[vVoters.size()-1].fName);  // get first name
         getline(cin, temp);  // get vote
-        vVoters[vVoters.size()].vote = stoul(temp);
+        vVoters[vVoters.size()-1].vote = stoul(temp);
         ++vCandidates[stoul(temp)].votes;
     }
 }
+
 
 
 
@@ -150,7 +151,7 @@ int main() {
     // ToDo: replace this without outputs and taking into account '//' from input file, also put it in a
     string input;
     for (;;) {
-        //cout << "Type the name for candidate n°" << nbr << ": ";
+        //cout << "Type the name for candidate: ";
         getline(cin, input);
         if (input[0] == '/' && input[1] == '/') continue;
         if (input.size() == 0) break;
@@ -164,7 +165,7 @@ int main() {
 
     // This is... hideous. Worse even than my hand writing. I regret ever writing this.
     // Whoever is reading this, I apologize to your very soul for laying eyes on this crime against humanity.
-    printVotes(vCandidates, voterCount);
+    //printVotes(vCandidates, voterCount);
     size_t majorityInd = getMajority(vCandidates, voterCount);
     if (majorityInd != vCandidates.size())
         cout << vCandidates[majorityInd].name << " wins by majority with "
@@ -176,10 +177,13 @@ int main() {
              << vCandidates[0].name << " and "
              << vCandidates[1].name << " will now begin." << endl;
         //votes = {};
+        vCandidates[0].votes = 0;
+        vCandidates[1].votes = 0;
+        vVoters = {};
         inputVotes(vCandidates, vVoters);
         voterCount = vVoters.size();
 
-        printVotes(vCandidates, voterCount);
+        //printVotes(vCandidates, voterCount);
         cout << vCandidates[getMajority(vCandidates, voterCount)].name << " wins in the second round!" << endl;
     }
     return 0;
