@@ -97,7 +97,7 @@ void printVotes(const vector<string> & candidates, const vector<unsigned> & vote
 void inputCandidates(vector<string> & candidates) {
     string input;
     for (;;) {
-        cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see with teammates if first candidate should be n°0 or 1
+        //cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see with teammates if first candidate should be n°0 or 1
         getline(cin, input);
         if (input.size() == 0) break;
         candidates.push_back(input);
@@ -108,9 +108,9 @@ void inputCandidates(vector<string> & candidates) {
 void inputVotes(const vector<string> & candidates, vector<string> & votes) {
     string input = "";
     for (;;) {
-        cout << "Vote for one of the following candidates: " << endl;
-        for (const string & candidate : candidates)
-            cout << "\t" << candidate << endl;
+        // cout << "Vote for one of the following candidates: " << endl;
+        // for (const string & candidate : candidates)
+        //     cout << "\t" << candidate << endl;
         getline(cin, input);
         if (input.size() == 0) break;
         if (!isIn(input, candidates)) {
@@ -133,7 +133,7 @@ int main() {
     // make votes usable
     vector<unsigned> candVotes = countVotes(candidates, votes);
     unsigned maxVote = getMaxValue(candVotes);
-    printVotes(candidates, candVotes);
+    //printVotes(candidates, candVotes);
     while (getTies(candidates, candVotes, maxVote).size() > 1) {    // while there are ties,
         cout << endl << "Tied!" << endl;
         candidates = getTies(candidates, candVotes, maxVote);       // only keep the candidates that are tied and
@@ -141,7 +141,7 @@ int main() {
         inputVotes(candidates, votes);                              // vote again.
         candVotes = countVotes(candidates, votes);
         maxVote = getMaxValue(candVotes);
-        printVotes(candidates, candVotes);
+        //printVotes(candidates, candVotes);
     }
     cout << "Winner is " << candidates[getMaxIndice(candVotes)] << "!!!" << endl;
 }
