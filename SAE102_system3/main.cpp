@@ -37,7 +37,7 @@ void generateRandVotes(const vector<string> & candidats, const unsigned & voters
 
         }
     }
-    for (unsigned a = 0; a < size(votes_eus); ++a)
+    for (size_t a = 0; a < size(votes_eus); ++a)
     {
         cout << "Le candidat " << candidats[a] << " a obtenu " << votes_eus[a] << " votes !" << endl;
     }
