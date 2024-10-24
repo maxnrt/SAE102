@@ -162,6 +162,8 @@ int main() {
     inputVotes(vCandidates, vVoters);
     unsigned voterCount = vVoters.size();
 
+    // This is... hideous. Worse even than my hand writing. I regret ever writing this.
+    // Whoever is reading this, I apologize to your very soul for laying eyes on this crime against humanity.
     printVotes(vCandidates, voterCount);
     size_t majorityInd = getMajority(vCandidates, voterCount);
     if (majorityInd != vCandidates.size())
