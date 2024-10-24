@@ -82,8 +82,8 @@ bool isIn(const Y & element, const vector<Y> & vect) {
 
 // printVotes just exists to make the main() code prettier lol
 //     this version, unlike the version in system1, also shows vote percentage.
-void printVotes(const vector<candidate> & vCandidates, const unsigned voterCount) {
-    for (candidate cand : vCandidates)  // for every candidates,
+void printVotes(vector<candidate> & vCandidates, const unsigned voterCount) {
+    for (candidate & cand : vCandidates)  // for every candidates,
         cout << cand.name << " : " << cand.votes
              << " " << cand.votes / double(voterCount) * 100 << "%" << endl;  // show their name, votes count and vote percentage.
 }
@@ -113,7 +113,7 @@ vector<size_t> getTwoBest(const vector<candidate> & vCand) {
 void inputCandidates(vector<string> & candidates) {
     string input;
     for (;;) {
-        cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see if first candidate should be n°0 or 1
+        //cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see if first candidate should be n°0 or 1
         getline(cin, input);  // another getline if first name AND last name are both needed.
         if (input.size() == 0) break;
         candidates.push_back(input);
