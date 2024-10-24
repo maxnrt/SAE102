@@ -51,10 +51,9 @@ size_t QuiALaMajorite(const size_t & nombreCandidats, const vector<unsigned> & v
     {
         if (votes_eus[y] >= nombreCandidats/2 )
             return  y;
-        else
-            return size(votes_eus);
     }
-    return false;
+    return size(votes_eus);
+
 }
 
 size_t quiALeMoinsDeVotes (const vector<string> & candidats, const vector<unsigned> & vote_eus)  // constante
@@ -196,38 +195,40 @@ int main()
 
         cout << gagnant << endl << endl ;
         cout << size(vote_eus) << endl << endl;
-        afficherVecteur(candidats);
-        cout << candidats[0] << endl;
-        cout << candidats[1] << endl;
+        //afficherVecteur(candidats);
+        //cout << candidats[0] << endl;
+        //cout << candidats[1] << endl;
         if (size(vote_eus) == 2)
         {
-            
+            gagnant = QuiALaMajorite(nombreVoteurs, vote_eus);
+            nomGagnant = candidats[gagnant];                                 // ICI çA CRASH A 2, REPRENDRE D'ICI
+            cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
 
+        }
         
             
-            if (vote_eus[0] > vote_eus[1])
-            {
-                cout << "Le candidat" << candidats[0] << "A gagné" << endl;
-                break;
-            }
-            else 
-            {
-                cout << "le candidat" << candidats[1] << "a gagné" << endl;
-                break;
-            }
-            //JE MET CEUX LA EN COMMENTAIRE POUR TEST UN TRUC
-            //gagnant = QuiALaMajorite(nombreVoteurs, vote_eus);
-            //nomGagnant = candidats[gagnant];                                 // ICI çA CRASH A 2, REPRENDRE D'ICI
-            //cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
-        }
-        else
-        {
-            nomGagnant = candidats[gagnant];
-            cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
-            break;
-        }
-        generateRandVotes(candidats, nombreVoteurs, vote_eus);
-
+        //     if (vote_eus[0] > vote_eus[1])
+        //     {
+        //         cout << "Le candidat" << candidats[0] << "A gagné" << endl;
+        //         break;
+        //     }
+        //     else 
+        //     {
+        //         cout << "le candidat" << candidats[1] << "a gagné" << endl;
+        //         break;
+        //     }
+        //     //JE MET CEUX LA EN COMMENTAIRE POUR TEST UN TRUC
+        //     //gagnant = QuiALaMajorite(nombreVoteurs, vote_eus);
+        //     //nomGagnant = candidats[gagnant];                                 // ICI çA CRASH A 2, REPRENDRE D'ICI
+        //     //cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
+        // }
+        // else
+        // {
+        //     nomGagnant = candidats[gagnant];
+        //     cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
+        //     break;
+        // }
+        
 
 
     }
