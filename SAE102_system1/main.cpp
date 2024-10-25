@@ -131,7 +131,10 @@ int main() {
     inputVotes(candidates, votes);
 
     // make votes usable
-    vector<unsigned> candVotes = countVotes(candidates, votes);
+    vector<unsigned> candVotes = countVotes(candidates, votes);        // cout << "Vote for one of the following candidates: " << endl;
+        // for (const string & candidate : candidates)
+        //     cout << "\t" << candidate << endl;
+
     unsigned maxVote = getMaxValue(candVotes);
     //printVotes(candidates, candVotes);
     while (getTies(candidates, candVotes, maxVote).size() > 1) {    // while there are ties,
