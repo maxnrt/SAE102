@@ -131,7 +131,7 @@ int main() {
     inputVotes(candidates, votes);
 
     // make votes usable
-    vector<unsigned> candVotes = countVotes(candidates, votes);        // cout << "Vote for one of the following candidates: " << endl;
+    vector<unsigned> candVotes = countVotes(candidates, votes);
 
     unsigned maxVote = getMaxValue(candVotes);
     //printVotes(candidates, candVotes);
