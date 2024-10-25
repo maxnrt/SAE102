@@ -37,11 +37,6 @@ void generateRandVotes(const vector<string> & candidats, const unsigned & voters
 
         }
     }
-    for (size_t a = 0; a < size(votes_eus); ++a)
-    {
-        cout << "Le candidat " << candidats[a] << " a obtenu " << votes_eus[a] << " votes !" << endl;
-    }
-    cout << endl ;
 }
 
 
@@ -81,6 +76,16 @@ size_t quiALeMoinsDeVotes (const vector<string> & candidats, const vector<unsign
 
 
 }
+
+void quiACombienDeVotes (const vector<string> & candidats, const vector<unsigned> & vote_eus)
+{
+    cout << " qui a cbien de votes test " << endl;
+    for (size_t a = 0; a < size(vote_eus); ++a)
+    {
+        cout << "Le candidat " << candidats[a] << " a obtenu " << vote_eus[a] << " votes !" << endl;
+    }
+}
+
 
 
 void afficherVecteur (const vector<string> & candidats)
@@ -198,14 +203,16 @@ int main()
         //afficherVecteur(candidats);
         //cout << candidats[0] << endl;
         //cout << candidats[1] << endl;
+        quiACombienDeVotes (candidats,vote_eus);
         if (size(vote_eus) == 2)
         {
             gagnant = QuiALaMajorite(nombreVoteurs, vote_eus);
             nomGagnant = candidats[gagnant];                                 // ICI çA CRASH A 2, REPRENDRE D'ICI
             cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
+            break;
 
         }
-        
+        generateRandVotes(candidats, nombreVoteurs, vote_eus) ; 
             
         //     if (vote_eus[0] > vote_eus[1])
         //     {
