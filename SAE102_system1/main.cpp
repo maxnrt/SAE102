@@ -132,8 +132,6 @@ int main() {
 
     // make votes usable
     vector<unsigned> candVotes = countVotes(candidates, votes);        // cout << "Vote for one of the following candidates: " << endl;
-        // for (const string & candidate : candidates)
-        //     cout << "\t" << candidate << endl;
 
     unsigned maxVote = getMaxValue(candVotes);
     //printVotes(candidates, candVotes);
