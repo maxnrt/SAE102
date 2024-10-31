@@ -46,7 +46,7 @@ size_t getMaxIndice (const vector<T> Vect) {
 
 // getMaxValue returns the highest value in a vector
 template <typename T>
-unsigned getMaxValue(const vector<T> Vect) {
+T getMaxValue(const vector<T> Vect) {
     T maxVal = 0;
     for (const T & elem : Vect) // for every element in the vector
         if (maxVal < elem)  // if maxVal is below the element
