@@ -32,6 +32,7 @@ vector<unsigned> countVotes (const vector<string> & candidates, const vector<str
 }
 
 // getMaxIndice returns the indice of the highest value in a vector
+// NOTE: This function is not used anymore and should be removed.
 template <typename T> // T is like a variable type
 size_t getMaxIndice (const vector<T> Vect) {
     size_t maxInd;
