@@ -144,5 +144,5 @@ int main() {
         maxVote = getMaxValue(candVotes);
         //printVotes(candidates, candVotes);
     }
-    cout << "Winner is " << candidates[getMaxIndice(candVotes)] << "!!!" << endl;
+    cout << "Winner is " << candidates[0] << "!!!" << endl;
 }
