@@ -30,6 +30,7 @@ void generateRandVotes(const vector<string> & candidates, const unsigned & voter
 }
 
 // countVotes returns a list of how many votes each candidate got
+// NOTE: this function is not used since the struct candidates already has it.
 vector<unsigned> countVotes (const vector<string> & candidates, const vector<string> & votes) {
     vector<unsigned> voteCounts;  // declare a vector that will hold the amout of votes for each candidates
     for (size_t i = 0; i < candidates.size(); ++i)  // init vector with 0s
@@ -47,6 +48,7 @@ vector<unsigned> countVotes (const vector<string> & candidates, const vector<str
 }
 
 // getMaxIndice returns the indice of the highest value in a vector
+// NOTE: unused.
 template <typename T>
 size_t getMaxIndice (const vector<T> Vect) {
     size_t maxInd = 0;
@@ -71,9 +73,10 @@ size_t getMaxVotes (const vector<candidate> & vCandidates) {
 }
 
 // isIn is a predicate that returns true if 'element' is present in 'vect'.
-template <typename Y>
-bool isIn(const Y & element, const vector<Y> & vect) {
-    for (const Y & elem : vect)  // for every elements in vect,
+// NOTE: unused.
+template <typename T>
+bool isIn(const T & element, const vector<T> & vect) {
+    for (const T & elem : vect)  // for every elements in vect,
         if (elem == element)  // if the element is equal to 'element',
             return true;
     return false;  // if we went through the whole list, it means the element wasn't present.
@@ -115,6 +118,7 @@ void inputCandidates(vector<string> & candidates) {
     for (;;) {
         //cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see if first candidate should be n°0 or 1
         getline(cin, input);  // another getline if first name AND last name are both needed.
+        if (input.substr(2) == "//") continue;  // ignore comments.
         if (input.size() == 0) break;
         candidates.push_back(input);
     }

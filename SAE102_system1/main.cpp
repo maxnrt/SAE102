@@ -68,9 +68,9 @@ bool isTied(const vector<unsigned> & voteCounts, const unsigned & max) {
 }
 
 // isIn is a predicate that returns true if 'element' is present in 'vect'.
-template <typename Y>
-bool isIn(const Y & element, const vector<Y> & vect) {
-    for (const Y & elem : vect)  // for every elements in vect,
+template <typename T>
+bool isIn(const T & element, const vector<T> & vect) {
+    for (const T & elem : vect)  // for every elements in vect,
         if (elem == element)  // if the element is equal to 'element',
             return true;
     return false;  // if we went through the whole list, it means the element wasn't present.
@@ -100,6 +100,7 @@ void inputCandidates(vector<string> & candidates) {
     for (;;) {
         //cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see with teammates if first candidate should be n°0 or 1
         getline(cin, input);
+        if (input.substr(2) == "//") continue;  // if comment, ignore. Used for input files.
         if (input.size() == 0) break;
         candidates.push_back(input);
     }
@@ -113,6 +114,7 @@ void inputVotes(const vector<string> & candidates, vector<string> & votes) {
         // for (const string & candidate : candidates)
         //     cout << "\t" << candidate << endl;
         getline(cin, input);
+        if (input.substr(2) == "//") continue;  // if comment, ignore. Used for input files.
         if (input.size() == 0) break;
         if (!isIn(input, candidates)) {
             cout << endl << input << " isn't a candidate!" << endl << endl;
