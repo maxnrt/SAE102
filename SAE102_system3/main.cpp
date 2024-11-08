@@ -1,257 +1,98 @@
+/**
+ *  @date : 22 octobre 2024
+ *  @author : Alain Casali
+ *  @Brief : une prmière réponse à la SAE 1.02 de 24/25
+**/
 #include <iostream>
-#include <thread>
-#include <fstream>
 #include <vector>
-#include <chrono>
+#include <algorithm>
+
 using namespace std;
 
+/**
+ * @brief litUneString
+ * @return la chaine lue sauf si :
+ * (1) on une boulette sur l'entrée
+ * (2) on trouve un commentaire sur l'entrée
+ * le commentaire est matérialisé par la chaine "//"
+ */
 
-
-// Premièrement, si tu modifies pas ta variable dans la fonction, met la comme CONSTANTE je t'en SUPPLI
-// Deuxièmement, si t'as une variable d'index, met la de type SIZE_T!! Le prof l'a dit 800 fois (au moins)
-
-unsigned rng (const unsigned max)
-{
-    std::srand(chrono::high_resolution_clock::now().time_since_epoch().count());
-    return rand() % max;
+string litUneString (){
+    string uneChaine;
+    while (true){
+        getline (cin, uneChaine);
+        if ((!cin) || (uneChaine.substr(0,2) != "//")) break;
+    }
+    return uneChaine;
 }
 
-
-// Cette fonction ne doit plus être utilisé car on prend les input de la console pour que ce soit compatible avec test Oracles!!
-void generateRandVotes(const vector<string> & candidats, const unsigned & voters_cnt, vector<unsigned> & votes_eus)
-{
-    ofstream votes_file ("votes.txt");  // open votes.txt
-    for (size_t i = 0; i < voters_cnt; ++i) {  // for every voter,
-        votes_file << (candidats[rng(unsigned(candidats.size()))]) << endl;  // add a random vote to votes.txt
-        this_thread::sleep_for(chrono::milliseconds(5));  // wait a few milliseconds to increase randomness
+int litUnEntier (){
+    string uneChaine;
+    while (true){
+        getline (cin, uneChaine);
+        if ((!cin) || (uneChaine.substr(0,2) != "//")) break;
     }
-    votes_file.close();  // close votes.txt
-    ifstream votes_fileout ("votes.txt");
-    string line ;
-    while (getline(votes_fileout, line))
-    {
-        for (size_t j = 0; j < size(candidats); ++j)
-        {
-            if (line == candidats[j])
-                ++votes_eus[j];
-
-        }
-    }
-    for (size_t a = 0; a < size(votes_eus); ++a)
-    {
-        cout << "Le candidat " << candidats[a] << " a obtenu " << votes_eus[a] << " votes !" << endl;
-    }
-    cout << endl ;
+    return stoi(uneChaine);
 }
 
+struct participant {
+    string nom;
+    string prenom;
+    int glacePref;
+};
 
-size_t QuiALaMajorite(const size_t & nombreCandidats, const vector<unsigned> & votes_eus)  // constante
-{
-    for (size_t y = 0; y < size(votes_eus); ++y)  // size_t
-    {
-        if (votes_eus[y] >= nombreCandidats/2 )
-            return  y;
-    }
-    return size(votes_eus);
-
+bool compare2part (const participant & p1, const participant & p2){
+    return p1.prenom < p2.prenom;
 }
 
-size_t quiALeMoinsDeVotes (const vector<string> & candidats, const vector<unsigned> & vote_eus)  // constante
-{
-    vector<string> candidats2;
-    unsigned tmp = vote_eus[0];
-    size_t indice_tmp = 0;  // size_t
-    for (size_t u = 0; u < size(candidats); ++u)  // size_t
-    {
-        if (vote_eus[u] < tmp)
-        {
-            tmp = vote_eus[u];
-            indice_tmp = u;
-        }
-    }
-    for (size_t z = 0; z < size(candidats); ++z)  // size_t
-    {
-        if (z == indice_tmp)continue;
-        else
-        {
-            candidats2.push_back(candidats[z]);
-        }
-    }
-    return indice_tmp;
-
-
+void affichVectString (const vector<string> & v){
+    for (const string & val : v)
+        cout << val << '\t';
+    cout << endl;
 }
 
-
-void afficherVecteur (const vector<string> & candidats)
-{
-    for (size_t i = 0; i < size(candidats); ++i )  // constante
-    {
-        cout << candidats[i] << endl ;
+void affichVectParticipants (const vector<participant> & vPart){
+    for (const participant & part : vPart){
+        cout << part.nom << endl;
+        cout << part.prenom << endl;
+        cout << part.glacePref << endl;
     }
 }
 
-vector<unsigned> metAJourLesVotes (const vector<string> & candidats)  // constante
-{
-    vector<unsigned> vote2;
-    for (size_t b = 0 ; b < size(candidats)-1 ; ++b)  // size_t
-    {
-            vote2.push_back(0);
-    }
-    return vote2;
-}
-
-vector<string> metAJourLesCandidats (size_t & tmp, vector<string> & candidats)
-{
-    vector<string> candidats2;
-    for (size_t c = 0 ; c < size(candidats) ; ++c)  // size_t
-    {
-        if (c == tmp)
-        {
-            cout << "le candidat " << candidats[tmp] << "  est éliminé" << endl << endl;
-            continue;
-        }
-        else
-            candidats2.push_back(candidats[c]);
-    }
-    return candidats2;
-}
-
-vector<string> inputCandidates() {
-    vector<string> ret;
-    string input;
-    for (;;) {
-        cout << "Entrez le candidat n°" << ret.size()+1 << ": ";
-        getline(cin, input);
-        if (input.size() == 0) break;
-        ret.push_back(input);
-    }
-    return ret;
-}
-
-// isIn is a predicate that returns true if 'element' is present in 'vect'.
-template <typename Y>
-bool isIn(const Y & element, const vector<Y> & vect) {
-    for (const Y & elem : vect)  // for every elements in vect,
-        if (elem == element)  // if the element is equal to 'element',
-            return true;
-    return false;  // if we went through the whole list, it means the element wasn't present.
-}
-
-// Oi Hugo, voila une fonction cool, mais jte laisse trouver comment l'utiliser pour que ça fonctionne bien
-vector<string> inputVotes(const vector<string> & candidates) {
-    vector<string> votes;
-    string input;
-    for (;;) {
-        cout << "Vote for one of the following candidates: " << endl;
-        for (const string & candidate : candidates)
-            cout << "\t" << candidate << endl;
-        getline(cin, input);
-        if (input.size() == 0) break;
-        if (!isIn(input, candidates)) {
-            cout << "\"" << input << "\" n'est pas dans la liste des candidats!" << endl;
-            continue;
-        }
-        votes.push_back(input);
-    }
-    return votes;
-}
-
-
-
-// Système de vote alternatif
 int main()
 {
-    vector<string> candidats = {"Zoro",
-                                "Jacques Ouzi",
-                                "Larry Golade",
-                                "Remi Fasol",
-                                "Sacha Hutte" ,
-                                "Yvan Dulé",
-                                "Huberts Eats",
-                                "Marc Assain"};  // doit être enlevé et être remplacé par input console
-    // oi Hugo, utilise ça pour entrer les candidats avec la console pour que ça marche avec fichier Oracle
-    // vector<string> candidats = inputCandidates();
-    size_t nombreCandidats = size(candidats) ;
-    vector<unsigned> vote_eus = {0,0,0,0,0,0,0,0} ;  // doit être enlevé et être remplacé par input console
-//  afficherVecteur(candidats);
-    unsigned nombreVoteurs = 100 ;
-    generateRandVotes(candidats, nombreVoteurs, vote_eus) ;  // doit être enlevé et être remplacé par input console
-    string nomGagnant ;  // à quoi sert cette string? dans le message tu peux juste mettre genre candidats[gagnant] comme tu fais avec les votes
-    size_t tmp;  // size_t
-    size_t gagnant = 0;  // size_t
-    unsigned compteurTour = 0;
-    cout << compteurTour + 1 << "tour ! " << endl << endl ;  // euh... commence le à 1 au pire? Et puis il est pas dans la boucle...?
-    while (true)
-    {
+    //cout << "Hello World!" << endl;
+    //vector<participant> vParticipant (19);
+    /* on va detecter les glaces preférées des votants
+    * tout en virant les commentaires
+    */
 
-        tmp = quiALeMoinsDeVotes(candidats,vote_eus); // Donne l'indice du mec avec le moins de votes
+    /* on vote sur 4 glaces */
+    vector <string> vGlacePref;
+    for (unsigned i (0); i < 4; ++i)
+        vGlacePref.push_back(litUneString());
 
-        vote_eus = metAJourLesVotes(candidats);        //On met a jour les votes
+/* debug */
+    affichVectString (vGlacePref);
 
-        candidats = metAJourLesCandidats(tmp, candidats);   //On met a jour les candidats
+    //On lit les datas du clavier, et on les stocke
+/*    vector<participant> vParticipant;
 
-        gagnant = QuiALaMajorite(nombreCandidats, vote_eus);
-
-        cout << gagnant << endl << endl ;
-        cout << size(vote_eus) << endl << endl;
-        //afficherVecteur(candidats);
-        //cout << candidats[0] << endl;
-        //cout << candidats[1] << endl;
-        if (size(vote_eus) == 2)
-        {
-            gagnant = QuiALaMajorite(nombreVoteurs, vote_eus);
-            nomGagnant = candidats[gagnant];                                 // ICI çA CRASH A 2, REPRENDRE D'ICI
-            cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
-
-        }
-        
-            
-        //     if (vote_eus[0] > vote_eus[1])
-        //     {
-        //         cout << "Le candidat" << candidats[0] << "A gagné" << endl;
-        //         break;
-        //     }
-        //     else 
-        //     {
-        //         cout << "le candidat" << candidats[1] << "a gagné" << endl;
-        //         break;
-        //     }
-        //     //JE MET CEUX LA EN COMMENTAIRE POUR TEST UN TRUC
-        //     //gagnant = QuiALaMajorite(nombreVoteurs, vote_eus);
-        //     //nomGagnant = candidats[gagnant];                                 // ICI çA CRASH A 2, REPRENDRE D'ICI
-        //     //cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
-        // }
-        // else
-        // {
-        //     nomGagnant = candidats[gagnant];
-        //     cout << "Le candidat " << nomGagnant << " est élu avec " << vote_eus[gagnant] << " votes !" << endl;
-        //     break;
-        // }
-        
-
-
+    for (unsigned i (0); i < 10; ++i){
+        string nom (litUneString());
+        string prenom  (litUneString());
+        int numGlace (litUnEntier());
+        //cout << nom << endl << prenom << endl << numGlace << endl;
+        vParticipant.push_back(participant{nom, prenom, numGlace});
+              //  vJoueur[numEquipe-1].push_back(joueur {nom, prenom, numEquipe});
     }
 
+    affichVectParticipants(vParticipant);
+    cout << string (15, '-') << endl;
+    sort (vParticipant.begin(), vParticipant.end(), compare2part);
+    affichVectParticipants(vParticipant);
+*/
 
+        cout << "c'est la glace " << vGlacePref[0] << " qui a gagne" << endl;
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
