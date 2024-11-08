@@ -17,6 +17,12 @@ using namespace std;
  * le commentaire est matérialisé par la chaine "//"
  */
 
+/*
+sys de vote par ponderation ternaire
+
+    dans ce sys on vote en disant l'option qu'on aime le moin ( on met -1 ) ou celle qu'on aime ( +1) -> le canditat a un ratio like et dislike et est elue si il a un ratio avantageu.
+
+*/
 string litUneString (){
     string uneChaine;
     while (true){
@@ -35,13 +41,37 @@ int litUnEntier (){
     return stoi(uneChaine);
 }
 
-struct participant {
+struct participant { // sruct pour les voteurs
     string nom;
     string prenom;
     int glacePref;
 };
 
-bool compare2part (const participant & p1, const participant & p2){
+struct candidate { // pour les candidats
+    string name;
+    int votes;
+};
+
+// void inputVotes(vector<voters> & vVoters) { // bloc venant du sys 2
+//     string temp;
+//     for (;;) {
+//         // cout << "Vote for one of the following candidates: " << endl;
+//         // for (const candidate & ccandidate : vCandidates)
+//         //     cout << "\t" << ccandidate.name << endl;
+
+//         // Note: probably should place comment and end check at every getline, but if input file is incorrect it's not my fault :p
+//         getline(cin, temp);
+//         if (temp.substr(0, 2) == "//") continue;  // if comment, ignore
+//         if (temp.size() == 0) break;
+//         vVoters.push_back(voters {"", "", 0});
+//         vVoters[vVoters.size()-1].lName = temp;  // get last name
+//         getline(cin, vVoters[vVoters.size()-1].fName);  // get first name
+//         getline(cin, temp);  // get vote
+//         vVoters[vVoters.size()-1].vote = stoul(temp);
+//     }
+// }
+
+bool c0ompare2part (const participant & p1, const participant & p2){
     return p1.prenom < p2.prenom;
 }
 
@@ -61,14 +91,16 @@ void affichVectParticipants (const vector<participant> & vPart){
 
 int main()
 {
-    //cout << "Hello World!" << endl;
+    //candidat1 = participant("Robert", "Maxence", 0);
     //vector<participant> vParticipant (19);
     /* on va detecter les glaces preférées des votants
     * tout en virant les commentaires
     */
 
-    /* on vote sur 4 glaces */
-    vector <string> vGlacePref;
+    vector <participant> vParticipant;
+    vector <candidate> vGlacePref;
+
+    // on vote sur 4 glace
     for (unsigned i (0); i < 4; ++i)
         vGlacePref.push_back(litUneString());
 
