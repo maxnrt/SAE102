@@ -89,6 +89,7 @@ vector<string> getTies(const vector<string> & candidates, const vector<unsigned>
 }
 
 // printVotes just exists to make the main() code prettier lol
+// not used since Oracle files are a pain otherwise
 void printVotes(const vector<string> & candidates, const vector<unsigned> & votes) {
     for (size_t i = 0; i < candidates.size(); ++i)  // for every candidates,
         cout << candidates[i] << " : " << votes[i] << endl;  // show their name and votes count.
