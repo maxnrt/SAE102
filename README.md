@@ -16,7 +16,7 @@ Le PAT est sur le groupe discord de la SAE
 - [X] System 1 (scrutin uninominal majoritaire à un tour)
     - [X] Test Oracle 1
     - [X] Test Oracle 2
-- [X] System 2 (démocratique à deux tours)
+- [X] System 2 (à deux tours)
     - [X] Test Oracle 1
     - [X] Test Oracle 2
 - [ ] System 3 (jsp mettez le)
