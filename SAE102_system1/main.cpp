@@ -147,5 +147,5 @@ int main() {
         maxVote = getMaxValue(candVotes);
         //printVotes(candidates, candVotes);
     }
-    cout << "Winner is " << candidates[0] << "!!!" << endl;
+    cout << "Winner is " << candidates[0] << "!!!" << endl;         // candidates[0] since getTies sends back ties, and if no ties it's size of 1
 }
