@@ -171,10 +171,11 @@ int main() {
     // Whoever is reading this, I apologize to your very soul for laying eyes on this crime against humanity.
     //printVotes(vCandidates, voterCount);
     size_t majorityInd = getMajority(vCandidates, voterCount);
-    if (majorityInd != vCandidates.size())
+    // No loop since only two rounds possible in this voting system
+    if (majorityInd != vCandidates.size())                                      // If a candidate has majority
         cout << vCandidates[majorityInd].name << " wins by majority with "
              << vCandidates[majorityInd].votes << " votes!" << endl;
-    else {
+    else {                                                                      // If not (if none have majority)
         vCandidates = {vCandidates[getTwoBest(vCandidates)[0]],
                        vCandidates[getTwoBest(vCandidates)[1]]};  // I know I'm calling the function twice, but I didn't want to use a whole var
         cout << "Nobody has majority. Second round between "
@@ -182,9 +183,9 @@ int main() {
              << vCandidates[1].name << " will now begin." << endl;
         //votes = {};
         vCandidates[0].votes = 0;
-        vCandidates[1].votes = 0;
-        vVoters = {};
-        inputVotes(vCandidates, vVoters);
+        vCandidates[1].votes = 0;                                               // Reset both candidates' vote count
+        vVoters = {};                                                           // Reset list of voters
+        inputVotes(vCandidates, vVoters);                                       // Second round of voting
         voterCount = vVoters.size();
 
         //printVotes(vCandidates, voterCount);
