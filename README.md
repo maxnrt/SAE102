@@ -23,7 +23,7 @@ Le PAT est sur le groupe discord de la SAE
     - [ ] Test Oracle 1
     - [ ] Test Oracle 2
 
-- [ ] Rapport
+- [ ] PDF expliquant les systemes de vote.
 - [ ] Présentation (diapo+text pr ceux qui ont besoins)
 
 ---
