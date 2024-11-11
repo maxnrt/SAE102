@@ -52,27 +52,7 @@ struct candidate { // pour les candidats
     int votes;
 };
 
-// void inputVotes(vector<voters> & vVoters) { // bloc venant du sys 2
-//     string temp;
-//     for (;;) {
-//         // cout << "Vote for one of the following candidates: " << endl;
-//         // for (const candidate & ccandidate : vCandidates)
-//         //     cout << "\t" << ccandidate.name << endl;
-
-//         // Note: probably should place comment and end check at every getline, but if input file is incorrect it's not my fault :p
-//         getline(cin, temp);
-//         if (temp.substr(0, 2) == "//") continue;  // if comment, ignore
-//         if (temp.size() == 0) break;
-//         vVoters.push_back(voters {"", "", 0});
-//         vVoters[vVoters.size()-1].lName = temp;  // get last name
-//         getline(cin, vVoters[vVoters.size()-1].fName);  // get first name
-//         getline(cin, temp);  // get vote
-//         vVoters[vVoters.size()-1].vote = stoul(temp);
-//     }
-// }
-
-// à quoi sert cette fonction?
-bool c0ompare2part (const participant & p1, const participant & p2){
+bool compare2part (const participant & p1, const participant & p2){
     return p1.prenom < p2.prenom;
 }
 
@@ -97,11 +77,6 @@ void affichVectParticipants (const vector<participant> & vPart){
 
 int main()
 {
-    //candidat1 = participant("Robert", "Maxence", 0);
-    //vector<participant> vParticipant (19);
-    /* on va detecter les glaces preférées des votants
-    * tout en virant les commentaires
-    */
     vector <participant> vParticipant;
     vector <candidate> vGlacePref;
 
@@ -136,26 +111,21 @@ int main()
             cerr << "Erreur d'entrée! Le vote ne doit pas être 0!" << endl;
     }
 
-/* debug */
-    affichVectCand (vGlacePref);
-    //On lit les datas du clavier, et on les stocke
-/*    vector<participant> vParticipant;
+    affichVectCand (vGlacePref);  // à enlever, uniquement pour debug
 
-    for (unsigned i (0); i < 10; ++i){
-        string nom (litUneString());
-        string prenom  (litUneString());
-        int numGlace (litUnEntier());
-        //cout << nom << endl << prenom << endl << numGlace << endl;
-        vParticipant.push_back(participant{nom, prenom, numGlace});
-              //  vJoueur[numEquipe-1].push_back(joueur {nom, prenom, numEquipe});
-    }
-
+    // faut enlever cette partie qui ne sert à rien
     affichVectParticipants(vParticipant);
     cout << string (15, '-') << endl;
     sort (vParticipant.begin(), vParticipant.end(), compare2part);
     affichVectParticipants(vParticipant);
-*/
+    // fin
 
-        cout << "c'est la glace " << vGlacePref[0].name << " qui a gagne" << endl;
+    // EN GROS ce qu'il faut faire:
+    //     - prendre les candidats (fait)
+    //     - prendre les voteurs et leur vote positif ou négatif (fait)
+    //     - modifier le nombre de votes de chaque candidat (fait)
+    //     - choisir un gagnant parmi les candidats, et traiter le cas si égalité
+
+    cout << "C'est la glace " << vGlacePref[0].name << " qui a gagné avec " << vGlacePref[0].votes << " votes." << endl;
     return 0;
 }
