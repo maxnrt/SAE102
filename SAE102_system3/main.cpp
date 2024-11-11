@@ -113,6 +113,17 @@ int main()
         vGlacePref.push_back({input, 0});
     }
 
+    // on prend les votes
+    for (;;) {
+        input = litUneString();
+        if (input.size() == 0) break;
+        vParticipant.push_back({input, litUneString(), litUnEntier()});
+        // Ceci assume que le format des participants est le suivant:
+        // NOM
+        // PRENOM
+        // X (numéro indiquant le vote)
+    }
+
 /* debug */
     affichVectCand (vGlacePref);
     //On lit les datas du clavier, et on les stocke
