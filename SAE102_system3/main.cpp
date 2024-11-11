@@ -71,6 +71,7 @@ struct candidate { // pour les candidats
 //     }
 // }
 
+// à quoi sert cette fonction?
 bool c0ompare2part (const participant & p1, const participant & p2){
     return p1.prenom < p2.prenom;
 }
@@ -79,6 +80,11 @@ void affichVectString (const vector<string> & v){
     for (const string & val : v)
         cout << val << '\t';
     cout << endl;
+}
+
+void affichVectCand (const vector<candidate> & v){
+    for (const candidate & cand : v)
+        cout << cand.name << " : " << cand.votes << endl;
 }
 
 void affichVectParticipants (const vector<participant> & vPart){
@@ -101,12 +107,12 @@ int main()
     vector <candidate> vGlacePref;
 
     // on vote sur 4 glace
+    // Max: Pas sure de cette boucle perso, il va pas avoir les 4 glaces à cause des commentaires.
     for (unsigned i (0); i < 4; ++i)
-        vGlacePref.push_back(litUneString());
+        vGlacePref.push_back({litUneString(), 0});
 
 /* debug */
-    affichVectString (vGlacePref);
-
+    affichVectCand (vGlacePref);
     //On lit les datas du clavier, et on les stocke
 /*    vector<participant> vParticipant;
 
