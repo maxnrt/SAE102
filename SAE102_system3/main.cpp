@@ -71,6 +71,7 @@ struct candidate { // pour les candidats
 //     }
 // }
 
+// à quoi sert cette fonction?
 bool c0ompare2part (const participant & p1, const participant & p2){
     return p1.prenom < p2.prenom;
 }
@@ -79,6 +80,11 @@ void affichVectString (const vector<string> & v){
     for (const string & val : v)
         cout << val << '\t';
     cout << endl;
+}
+
+void affichVectCand (const vector<candidate> & v){
+    for (const candidate & cand : v)
+        cout << cand.name << " : " << cand.votes << endl;
 }
 
 void affichVectParticipants (const vector<participant> & vPart){
@@ -96,17 +102,42 @@ int main()
     /* on va detecter les glaces preférées des votants
     * tout en virant les commentaires
     */
-
     vector <participant> vParticipant;
     vector <candidate> vGlacePref;
 
-    // on vote sur 4 glace
-    for (unsigned i (0); i < 4; ++i)
-        vGlacePref.push_back(litUneString());
+    // on vote sur x glace
+    string input;
+    for (;;) {
+        input = litUneString();
+        if (input.size() == 0) break;
+        vGlacePref.push_back({input, 0});
+    }
+
+    // on prend les votes
+    for (;;) {
+        input = litUneString();
+        if (input.size() == 0) break;
+        vParticipant.push_back({input, litUneString(), litUnEntier()});
+        // Ceci assume que le format des participants est le suivant:
+        // NOM
+        // PRENOM
+        // X (numéro indiquant le vote)
+    }
+
+    // on traite les votes
+    size_t voteIndice;
+    for (const participant & part : vParticipant) {
+        voteIndice = abs(part.glacePref);
+        if (part.glacePref < 0)
+            --vGlacePref[voteIndice].votes;
+        else if (part.glacePref > 0)
+            ++vGlacePref[voteIndice].votes;
+        else
+            cerr << "Erreur d'entrée! Le vote ne doit pas être 0!" << endl;
+    }
 
 /* debug */
-    affichVectString (vGlacePref);
-
+    affichVectCand (vGlacePref);
     //On lit les datas du clavier, et on les stocke
 /*    vector<participant> vParticipant;
 
@@ -125,6 +156,6 @@ int main()
     affichVectParticipants(vParticipant);
 */
 
-        cout << "c'est la glace " << vGlacePref[0] << " qui a gagne" << endl;
+        cout << "c'est la glace " << vGlacePref[0].name << " qui a gagne" << endl;
     return 0;
 }
