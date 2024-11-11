@@ -124,6 +124,18 @@ int main()
         // X (numéro indiquant le vote)
     }
 
+    // on traite les votes
+    size_t voteIndice;
+    for (const participant & part : vParticipant) {
+        voteIndice = abs(part.glacePref);
+        if (part.glacePref < 0)
+            --vGlacePref[voteIndice].votes;
+        else if (part.glacePref > 0)
+            ++vGlacePref[voteIndice].votes;
+        else
+            cerr << "Erreur d'entrée! Le vote ne doit pas être 0!" << endl;
+    }
+
 /* debug */
     affichVectCand (vGlacePref);
     //On lit les datas du clavier, et on les stocke
