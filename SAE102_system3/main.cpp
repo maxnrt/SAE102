@@ -102,14 +102,16 @@ int main()
     /* on va detecter les glaces preférées des votants
     * tout en virant les commentaires
     */
-
     vector <participant> vParticipant;
     vector <candidate> vGlacePref;
 
-    // on vote sur 4 glace
-    // Max: Pas sure de cette boucle perso, il va pas avoir les 4 glaces à cause des commentaires.
-    for (unsigned i (0); i < 4; ++i)
-        vGlacePref.push_back({litUneString(), 0});
+    // on vote sur x glace
+    string input;
+    for (;;) {
+        input = litUneString();
+        if (input.size() == 0) break;
+        vGlacePref.push_back({input, 0});
+    }
 
 /* debug */
     affichVectCand (vGlacePref);
