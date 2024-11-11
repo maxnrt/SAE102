@@ -9,14 +9,6 @@
 
 using namespace std;
 
-/**
- * @brief litUneString
- * @return la chaine lue sauf si :
- * (1) on une boulette sur l'entrée
- * (2) on trouve un commentaire sur l'entrée
- * le commentaire est matérialisé par la chaine "//"
- */
-
 /*
 sys de vote par ponderation ternaire
 
@@ -27,6 +19,14 @@ sys de vote par ponderation ternaire
     x OU -x (avec x étant l'indice du candidat + 1)
 
 */
+
+/**
+ * @brief litUneString
+ * @return la chaine lue sauf si :
+ * (1) on une boulette sur l'entrée
+ * (2) on trouve un commentaire sur l'entrée
+ * le commentaire est matérialisé par la chaine "//"
+ */
 string litUneString (){
     string uneChaine;
     while (true){
