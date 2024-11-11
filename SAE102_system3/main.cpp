@@ -20,7 +20,11 @@ using namespace std;
 /*
 sys de vote par ponderation ternaire
 
-    dans ce sys on vote en disant l'option qu'on aime le moin ( on met -1 ) ou celle qu'on aime ( +1) -> le canditat a un ratio like et dislike et est elue si il a un ratio avantageu.
+    dans ce sys on vote soit en positif (ce qui ajoute un vote au candidat), soit en négatif (ce qui enlève un vote au candidat)
+    donc chaque vote est formatter de la manière suivante:
+    NOM
+    PRÉNOM
+    x OU -x (avec x étant l'indice du candidat + 1)
 
 */
 string litUneString (){
