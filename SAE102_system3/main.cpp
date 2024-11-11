@@ -121,7 +121,10 @@ int main()
     // fin
 
     // EN GROS ce qu'il faut faire:
-    //     -
+    //     - prendre les candidats (fait)
+    //     - prendre les voteurs et leur vote positif ou négatif (fait)
+    //     - modifier le nombre de votes de chaque candidat (fait)
+    //     - choisir un gagnant parmi les candidats, et traiter le cas si égalité
 
     cout << "C'est la glace " << vGlacePref[0].name << " qui a gagné avec " << vGlacePref[0].votes << " votes." << endl;
     return 0;
