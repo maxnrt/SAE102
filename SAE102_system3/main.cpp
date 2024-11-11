@@ -131,6 +131,6 @@ int main()
     affichVectParticipants(vParticipant);
 */
 
-        cout << "c'est la glace " << vGlacePref[0] << " qui a gagne" << endl;
+        cout << "c'est la glace " << vGlacePref[0].name << " qui a gagne" << endl;
     return 0;
 }
