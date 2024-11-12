@@ -142,7 +142,7 @@ void inputVotes(vector<candidate> & vCandidates, vector<voters> & vVoters) {
         getline(cin, vVoters[vVoters.size()-1].fName);  // get first name
         getline(cin, temp);  // get vote
         vVoters[vVoters.size()-1].vote = stoul(temp);
-        ++vCandidates[stoul(temp)].votes;
+        ++vCandidates[stoul(temp)-1].votes;
     }
 }
 
