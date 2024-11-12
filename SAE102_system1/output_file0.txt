@@ -1,0 +1,9 @@
+Choco : 36
+Banane : 33
+Mangue : 35
+Fraises : 36
+
+Tied!
+Choco : 79
+Fraises : 62
+Winner is Choco!!!
