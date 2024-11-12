@@ -30,6 +30,7 @@ void generateRandVotes(const vector<string> & candidates, const unsigned & voter
 }
 
 // countVotes returns a list of how many votes each candidate got
+// NOTE: this function is not used since the struct candidates already has it.
 vector<unsigned> countVotes (const vector<string> & candidates, const vector<string> & votes) {
     vector<unsigned> voteCounts;  // declare a vector that will hold the amout of votes for each candidates
     for (size_t i = 0; i < candidates.size(); ++i)  // init vector with 0s
@@ -47,6 +48,7 @@ vector<unsigned> countVotes (const vector<string> & candidates, const vector<str
 }
 
 // getMaxIndice returns the indice of the highest value in a vector
+// NOTE: unused.
 template <typename T>
 size_t getMaxIndice (const vector<T> Vect) {
     size_t maxInd = 0;
@@ -71,9 +73,10 @@ size_t getMaxVotes (const vector<candidate> & vCandidates) {
 }
 
 // isIn is a predicate that returns true if 'element' is present in 'vect'.
-template <typename Y>
-bool isIn(const Y & element, const vector<Y> & vect) {
-    for (const Y & elem : vect)  // for every elements in vect,
+// NOTE: unused.
+template <typename T>
+bool isIn(const T & element, const vector<T> & vect) {
+    for (const T & elem : vect)  // for every elements in vect,
         if (elem == element)  // if the element is equal to 'element',
             return true;
     return false;  // if we went through the whole list, it means the element wasn't present.
@@ -115,6 +118,7 @@ void inputCandidates(vector<string> & candidates) {
     for (;;) {
         //cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see if first candidate should be n°0 or 1
         getline(cin, input);  // another getline if first name AND last name are both needed.
+        if (input.substr(2) == "//") continue;  // ignore comments.
         if (input.size() == 0) break;
         candidates.push_back(input);
     }
@@ -125,22 +129,23 @@ void inputCandidates(vector<string> & candidates) {
 void inputVotes(vector<candidate> & vCandidates, vector<voters> & vVoters) {
     string temp;
     for (;;) {
-        //cout << "Vote for one of the following candidates: " << endl;
-        //for (const string & candidate : candidates)
-        //    cout << "\t" << candidate << endl;
+        // cout << "Vote for one of the following candidates: " << endl;
+        // for (const candidate & ccandidate : vCandidates)
+        //     cout << "\t" << ccandidate.name << endl;
 
         // Note: probably should place comment and end check at every getline, but if input file is incorrect it's not my fault :p
         getline(cin, temp);
         if (temp.substr(0, 2) == "//") continue;  // if comment, ignore
         if (temp.size() == 0) break;
         vVoters.push_back(voters {"", "", 0});
-        vVoters[vVoters.size()].lName = temp;  // get last name
-        getline(cin, vVoters[vVoters.size()].fName);  // get first name
+        vVoters[vVoters.size()-1].lName = temp;  // get last name
+        getline(cin, vVoters[vVoters.size()-1].fName);  // get first name
         getline(cin, temp);  // get vote
-        vVoters[vVoters.size()].vote = stoul(temp);
+        vVoters[vVoters.size()-1].vote = stoul(temp);
         ++vCandidates[stoul(temp)].votes;
     }
 }
+
 
 
 
@@ -150,7 +155,7 @@ int main() {
     // ToDo: replace this without outputs and taking into account '//' from input file, also put it in a
     string input;
     for (;;) {
-        //cout << "Type the name for candidate n°" << nbr << ": ";
+        //cout << "Type the name for candidate: ";
         getline(cin, input);
         if (input[0] == '/' && input[1] == '/') continue;
         if (input.size() == 0) break;
@@ -164,22 +169,26 @@ int main() {
 
     // This is... hideous. Worse even than my hand writing. I regret ever writing this.
     // Whoever is reading this, I apologize to your very soul for laying eyes on this crime against humanity.
-    printVotes(vCandidates, voterCount);
+    //printVotes(vCandidates, voterCount);
     size_t majorityInd = getMajority(vCandidates, voterCount);
-    if (majorityInd != vCandidates.size())
+    // No loop since only two rounds possible in this voting system
+    if (majorityInd != vCandidates.size())                                      // If a candidate has majority
         cout << vCandidates[majorityInd].name << " wins by majority with "
              << vCandidates[majorityInd].votes << " votes!" << endl;
-    else {
+    else {                                                                      // If not (if none have majority)
         vCandidates = {vCandidates[getTwoBest(vCandidates)[0]],
                        vCandidates[getTwoBest(vCandidates)[1]]};  // I know I'm calling the function twice, but I didn't want to use a whole var
         cout << "Nobody has majority. Second round between "
              << vCandidates[0].name << " and "
              << vCandidates[1].name << " will now begin." << endl;
         //votes = {};
-        inputVotes(vCandidates, vVoters);
+        vCandidates[0].votes = 0;
+        vCandidates[1].votes = 0;                                               // Reset both candidates' vote count
+        vVoters = {};                                                           // Reset list of voters
+        inputVotes(vCandidates, vVoters);                                       // Second round of voting
         voterCount = vVoters.size();
 
-        printVotes(vCandidates, voterCount);
+        //printVotes(vCandidates, voterCount);
         cout << vCandidates[getMajority(vCandidates, voterCount)].name << " wins in the second round!" << endl;
     }
     return 0;

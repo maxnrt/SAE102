@@ -32,6 +32,7 @@ vector<unsigned> countVotes (const vector<string> & candidates, const vector<str
 }
 
 // getMaxIndice returns the indice of the highest value in a vector
+// NOTE: This function is not used anymore and should be removed.
 template <typename T> // T is like a variable type
 size_t getMaxIndice (const vector<T> Vect) {
     size_t maxInd;
@@ -46,7 +47,7 @@ size_t getMaxIndice (const vector<T> Vect) {
 
 // getMaxValue returns the highest value in a vector
 template <typename T>
-unsigned getMaxValue(const vector<T> Vect) {
+T getMaxValue(const vector<T> Vect) {
     T maxVal = 0;
     for (const T & elem : Vect) // for every element in the vector
         if (maxVal < elem)  // if maxVal is below the element
@@ -67,9 +68,9 @@ bool isTied(const vector<unsigned> & voteCounts, const unsigned & max) {
 }
 
 // isIn is a predicate that returns true if 'element' is present in 'vect'.
-template <typename Y>
-bool isIn(const Y & element, const vector<Y> & vect) {
-    for (const Y & elem : vect)  // for every elements in vect,
+template <typename T>
+bool isIn(const T & element, const vector<T> & vect) {
+    for (const T & elem : vect)  // for every elements in vect,
         if (elem == element)  // if the element is equal to 'element',
             return true;
     return false;  // if we went through the whole list, it means the element wasn't present.
@@ -88,6 +89,7 @@ vector<string> getTies(const vector<string> & candidates, const vector<unsigned>
 }
 
 // printVotes just exists to make the main() code prettier lol
+// not used since Oracle files are a pain otherwise
 void printVotes(const vector<string> & candidates, const vector<unsigned> & votes) {
     for (size_t i = 0; i < candidates.size(); ++i)  // for every candidates,
         cout << candidates[i] << " : " << votes[i] << endl;  // show their name and votes count.
@@ -97,8 +99,9 @@ void printVotes(const vector<string> & candidates, const vector<unsigned> & vote
 void inputCandidates(vector<string> & candidates) {
     string input;
     for (;;) {
-        cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see with teammates if first candidate should be n°0 or 1
+        //cout << "Type the name for candidate n°" << candidates.size() << ":" << endl;  // ToDo: see with teammates if first candidate should be n°0 or 1
         getline(cin, input);
+        if (input.substr(2) == "//") continue;  // if comment, ignore. Used for input files.
         if (input.size() == 0) break;
         candidates.push_back(input);
     }
@@ -108,10 +111,11 @@ void inputCandidates(vector<string> & candidates) {
 void inputVotes(const vector<string> & candidates, vector<string> & votes) {
     string input = "";
     for (;;) {
-        cout << "Vote for one of the following candidates: " << endl;
-        for (const string & candidate : candidates)
-            cout << "\t" << candidate << endl;
+        // cout << "Vote for one of the following candidates: " << endl;
+        // for (const string & candidate : candidates)
+        //     cout << "\t" << candidate << endl;
         getline(cin, input);
+        if (input.substr(2) == "//") continue;  // if comment, ignore. Used for input files.
         if (input.size() == 0) break;
         if (!isIn(input, candidates)) {
             cout << endl << input << " isn't a candidate!" << endl << endl;
@@ -132,8 +136,9 @@ int main() {
 
     // make votes usable
     vector<unsigned> candVotes = countVotes(candidates, votes);
+
     unsigned maxVote = getMaxValue(candVotes);
-    printVotes(candidates, candVotes);
+    //printVotes(candidates, candVotes);
     while (getTies(candidates, candVotes, maxVote).size() > 1) {    // while there are ties,
         cout << endl << "Tied!" << endl;
         candidates = getTies(candidates, candVotes, maxVote);       // only keep the candidates that are tied and
@@ -141,7 +146,7 @@ int main() {
         inputVotes(candidates, votes);                              // vote again.
         candVotes = countVotes(candidates, votes);
         maxVote = getMaxValue(candVotes);
-        printVotes(candidates, candVotes);
+        //printVotes(candidates, candVotes);
     }
-    cout << "Winner is " << candidates[getMaxIndice(candVotes)] << "!!!" << endl;
+    cout << "Winner is " << candidates[0] << "!!!" << endl;         // candidates[0] since getTies sends back ties, and if no ties it's size of 1
 }
