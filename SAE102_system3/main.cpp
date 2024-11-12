@@ -79,6 +79,16 @@ void affichVectParticipants (const vector<participant> & vPart){
     }
 }
 
+vector <size_t> indexDesEgalites (const vector<candidate> & vCandidats, const int votesMax)
+{
+    vector<size_t> retVect;
+    for (size_t i = 0; i < vCandidats.size(); ++i) {
+        if (vCandidats[i].votes == votesMax) {
+            retVect.push_back(i);
+        }
+    }
+    return retVect;
+}
 int main()
 {
     vector <participant> vParticipant;
@@ -108,9 +118,9 @@ int main()
     for (const participant & part : vParticipant) {
         voteIndice = abs(part.glacePref);
         if (part.glacePref < 0)
-            --vGlacePref[voteIndice].votes;
+            --vGlacePref[voteIndice-1].votes;
         else if (part.glacePref > 0)
-            ++vGlacePref[voteIndice].votes;
+            ++vGlacePref[voteIndice-1].votes;
         else
             cerr << "Erreur d'entrée! Le vote ne doit pas être 0!" << endl;
     }
@@ -130,6 +140,34 @@ int main()
     //     - modifier le nombre de votes de chaque candidat (fait)
     //     - choisir un gagnant parmi les candidats, et traiter le cas si égalité
 
-    cout << "C'est la glace " << vGlacePref[0].name << " qui a gagné avec " << vGlacePref[0].votes << " votes." << endl;
+
+
+    //Choix du gagnant + cas egalité :
+    // choix du gagnant :
+    int votesGagnant = 0;
+    size_t indexGagnant = 0;
+    vector<size_t> indexEgalites;
+    for (size_t u=0 ; u < size(vGlacePref); ++u )
+    {
+
+        if (vGlacePref[u].votes > votesGagnant)
+        {
+            indexGagnant = u;
+            votesGagnant = vGlacePref[u].votes;
+        }
+    }
+    // cas de l'égalité :
+    vector<candidate> vGlacePrefDeux;
+    for (;;) {
+        indexEgalites = indexDesEgalites(vGlacePref, votesGagnant);
+        if (indexEgalites.size() == 1) break;
+        vGlacePrefDeux = {};
+        for (const size_t & ind : indexEgalites)
+            vGlacePrefDeux.push_back(vGlacePref[ind]);
+        vGlacePref = vGlacePrefDeux;
+        for (candidate & cand : vGlacePref)
+            cand.votes = 0;
+    }
+    cout << "C'est la glace " << vGlacePref[indexGagnant].name << " qui a gagné avec " << votesGagnant << " votes." << endl;
     return 0;
 }
