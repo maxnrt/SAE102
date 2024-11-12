@@ -1,22 +1,24 @@
 //liste des glaces
-Mangue
 Choco
+Mangue
 Banane
 Fraises
+
 //voila la liste des joueurs
 //et encore un autre commentaire
+//J'ai modif quelques votes pour pas avoir d'égalité. Allez voir entree1 pour égalité.
 AROUSSI BENTATA
 Adam
 1
 ACEMYAN DE OLIVEIRA
 Ewan
-2
+1
 ACH                     
 Sofia
-3
+1
 AGGAB
 Mohammed
-4
+1
 AHAMED
 Nasser
 1

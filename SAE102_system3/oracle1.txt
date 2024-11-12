@@ -1,0 +1,9 @@
+Choco : 15
+Banane : 15
+Mangue : 9
+Fraises : 7
+
+Égalité!
+Choco : 78
+Banane : 58
+C'est la glace Choco qui a gagné avec 78 votes.

@@ -5,7 +5,7 @@
 **/
 #include <iostream>
 #include <vector>
-#include <algorithm>
+//#include <algorithm>
 
 using namespace std;
 
@@ -89,6 +89,45 @@ vector <size_t> indexDesEgalites (const vector<candidate> & vCandidats, const in
     }
     return retVect;
 }
+
+void entreeDesVotes (vector<participant> & vParticipant) {
+    // on prend les votes*
+    string input;
+    for (;;) {
+        input = litUneString();
+        if (input.size() == 0) break;
+        vParticipant.push_back({input, litUneString(), litUnEntier()});
+        // Ceci assume que le format des participants est le suivant:
+        // NOM
+        // PRENOM
+        // X (numéro indiquant le vote)
+    }
+}
+
+void choixGagnant (const vector<candidate> & vGlacePref, size_t & indexGagn, int & votesGagn) {
+    votesGagn = 0;
+    indexGagn = 0;
+    for (size_t u=0 ; u < size(vGlacePref); ++u )
+    {
+        if (vGlacePref[u].votes > votesGagn)
+        {
+            indexGagn = u;
+            votesGagn = vGlacePref[u].votes;
+        }
+    }
+}
+
+void traitementVotes (vector<candidate> & vGlacePref, const vector<participant> & vParticipant) {
+    size_t voteIndice;
+    for (const participant & part : vParticipant) {
+        voteIndice = abs(part.glacePref);
+        if (part.glacePref < 0)
+            --vGlacePref[voteIndice-1].votes;
+        else if (part.glacePref > 0)
+            ++vGlacePref[voteIndice-1].votes;
+    }
+}
+
 int main()
 {
     vector <participant> vParticipant;
@@ -102,34 +141,14 @@ int main()
         vGlacePref.push_back({input, 0});
     }
 
-    // on prend les votes
-    for (;;) {
-        input = litUneString();
-        if (input.size() == 0) break;
-        vParticipant.push_back({input, litUneString(), litUnEntier()});
-        // Ceci assume que le format des participants est le suivant:
-        // NOM
-        // PRENOM
-        // X (numéro indiquant le vote)
-    }
+    entreeDesVotes(vParticipant);
 
     // on traite les votes
-    size_t voteIndice;
-    for (const participant & part : vParticipant) {
-        voteIndice = abs(part.glacePref);
-        if (part.glacePref < 0)
-            --vGlacePref[voteIndice-1].votes;
-        else if (part.glacePref > 0)
-            ++vGlacePref[voteIndice-1].votes;
-    }
+    traitementVotes(vGlacePref, vParticipant);
 
-    affichVectCand (vGlacePref);  // à enlever, uniquement pour debug
+
 
     // faut enlever cette partie qui ne sert à rien
-    affichVectParticipants(vParticipant);
-    cout << string (15, '-') << endl;
-    sort (vParticipant.begin(), vParticipant.end(), compare2part);
-    affichVectParticipants(vParticipant);
     // fin
 
     // EN GROS ce qu'il faut faire:
@@ -145,26 +164,24 @@ int main()
     int votesGagnant = 0;
     size_t indexGagnant = 0;
     vector<size_t> indexEgalites;
-    for (size_t u=0 ; u < size(vGlacePref); ++u )
-    {
-
-        if (vGlacePref[u].votes > votesGagnant)
-        {
-            indexGagnant = u;
-            votesGagnant = vGlacePref[u].votes;
-        }
-    }
+    choixGagnant(vGlacePref, indexGagnant, votesGagnant);
     // cas de l'égalité :
+    affichVectCand (vGlacePref);  // à enlever, uniquement pour debug
     vector<candidate> vGlacePrefDeux;
     for (;;) {
         indexEgalites = indexDesEgalites(vGlacePref, votesGagnant);
         if (indexEgalites.size() == 1) break;
+        cout << endl << "Égalité!" << endl;
         vGlacePrefDeux = {};
         for (const size_t & ind : indexEgalites)
             vGlacePrefDeux.push_back(vGlacePref[ind]);
         vGlacePref = vGlacePrefDeux;
         for (candidate & cand : vGlacePref)
             cand.votes = 0;
+        entreeDesVotes(vParticipant);
+        traitementVotes(vGlacePref, vParticipant);
+        choixGagnant(vGlacePref, indexGagnant, votesGagnant);
+        affichVectCand(vGlacePref);
     }
     cout << "C'est la glace " << vGlacePref[indexGagnant].name << " qui a gagné avec " << votesGagnant << " votes." << endl;
     return 0;
