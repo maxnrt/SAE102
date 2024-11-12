@@ -121,8 +121,6 @@ int main()
             --vGlacePref[voteIndice-1].votes;
         else if (part.glacePref > 0)
             ++vGlacePref[voteIndice-1].votes;
-        else
-            cerr << "Erreur d'entrée! Le vote ne doit pas être 0!" << endl;
     }
 
     affichVectCand (vGlacePref);  // à enlever, uniquement pour debug
