@@ -19,11 +19,11 @@ Le PAT est sur le groupe discord de la SAE
 - [X] System 2 (à deux tours)
     - [X] Test Oracle 1
     - [X] Test Oracle 2
-- [ ] System 3 (jsp mettez le)
-    - [ ] Test Oracle 1
-    - [ ] Test Oracle 2
+- [X] System 3 (négatif jsp lol)
+    - [X] Test Oracle 1
+    - [X] Test Oracle 2
 
-- [ ] PDF expliquant les systemes de vote.
+- [X] PDF expliquant les systemes de vote.
 - [ ] Présentation (diapo+text pr ceux qui ont besoins)
 
 ---
